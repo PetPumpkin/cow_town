@@ -1,4 +1,4 @@
-# cow_town
+# Cow Town
 My first attempt at making a vanilla JS game.
 
 Cow Town is a minimal town management game inspired by Despotism 3k.
