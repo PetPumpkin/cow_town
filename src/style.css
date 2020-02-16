@@ -1,0 +1,340 @@
+/*
+#f2faf2 hel hell gruen
+#e9ffe9  hell gruen
+#99B898  green
+#FECEA8  peach
+#FF847C oranger
+#E84A5F  reder
+#2A363B   dark green
+*/
+:root{
+    --color-bodyBG: #f2faf2;
+    --color-divBG: #e9ffe9;
+    --color-scrollBarBG: #99B898;
+    --color-dayBar: #FF847C;
+    --color-energy: #FECEA8;
+    --color-wallStrength: #FECEA8;
+    --color-enemyStrength: #2A363B;
+    --color-buttonBG:#FECEA8;
+    --color-buttonHoverBG: #2A363B;
+    --color-buttonTextHoverBG: #f2faf2;
+    --color-text: #2A363B;
+    --color-borders: #2A363B;
+    --color-text-bold: #E84A5F;
+}
+
+body{
+    font-family: 'Comfortaa', cursive;
+    color: var(--color-text);
+    background-color: var(--color-bodyBG);
+}
+
+#preGameDiv{
+    margin: 5px auto;
+    border: 2px solid var(--color-borders);
+}
+
+#preGameOptionsDiv{
+    margin: 10px;
+}
+
+#gameDiv{
+    margin: 5px auto;
+    border: 2px solid var(--color-borders);
+    min-width: 600px;
+    max-width: 700px;
+    max-height: 700px;
+}
+
+#tutorialDiv{
+    border: 2px solid var(--color-borders);
+    margin: 5px;
+    padding: 5px;
+
+}
+
+h1{
+    margin: 10px 10px 0px;
+    display: inline-block;
+}
+
+h4{
+    margin: 10px;
+}
+
+hr{
+    border: 1px dotted var(--color-borders);
+}
+
+p{
+    margin: 2px;
+}
+
+#titleDiv{
+    margin: 5px;
+}
+
+button{
+    background: var(--color-buttonBG);
+    color: var(--color-text);
+    border: 1px solid var(--color-borders);
+}
+
+button:hover{
+    background: var(--color-buttonHoverBG);
+    color: var(--color-buttonTextHoverBG);
+}
+
+#speedControlDiv{
+    text-align: center;
+    float: right;
+    margin: 2px 5px;
+}
+
+#menuButtons{
+    text-align: center;
+    float: right;
+    margin: 2px 100px 2px 0px;
+}
+
+#gameComponentsDiv{
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#foodForagersDiv, #woodCollectorsDiv, #buildersDiv, #atHomeDiv{
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-scrollBarBG); 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-buttonHoverBG); 
+  }
+
+#resourceOverview{
+    margin: 5px;
+    border: 2px solid var(--color-borders);
+    padding: 10px;
+    background: var(--color-divBG);
+    white-space: nowrap;
+    overflow: hidden;
+    overflow-x: scroll;
+    
+}
+
+#updateText{
+    font-weight: bold;
+    color: var(--color-text-bold)
+}
+
+#oldUpdateText {
+    font-weight: normal;
+    color: var(--color-text);
+  
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+#dayCycle{
+    margin: 2px auto 5px;
+    height: 20px;
+    width: 100%;
+    border: 1px solid var(--color-borders);
+    text-align: center;
+}
+
+#dayCycleFiller{
+    background: var(--color-dayBar);
+    height: 20px;
+}
+
+#dayCycleDiv{
+    text-align: center;
+    border: 2px solid var(--color-borders);
+    margin: 5px;
+    padding: 5px;
+    background: var(--color-divBG);
+
+}
+
+#boldenText{
+    font-weight: bold; 
+}
+
+#wallDisplayDiv{
+    margin: 5px;
+    padding: 5px;
+    border: 2px solid var(--color-borders);
+    text-align: center;
+    background: var(--color-divBG);
+}
+
+#wallDisplay{
+    margin: 2px auto 5px;
+    height: 20px;
+    width: 100%;
+    border: 1px solid var(--color-borders);
+    text-align: center;
+}
+
+#wallDisplayFiller{
+    background: var(--color-wallStrength);
+    float: left;
+    height: 20px;
+
+}
+
+#enemyStrengthFiller{
+    position: absolute;
+    opacity: 0.5;
+    background: var(--color-enemyStrength);
+    height: 20px;
+    width: 0%;
+}
+
+.newForager, .newCollector, .newBuilder, .newAtHome{
+    margin: 5px;
+}
+
+.villagerEnergyDisplay{
+    width: 80%;
+    height: 5px;
+    border: 1px solid var(--color-borders);
+    padding: 0px;
+}
+
+.villagerEnergyDisplayFiller{
+    background: var(--color-energy);
+    height: 5px;
+    margin: 0;
+}
+
+.villagerHomeEnergyDisplay{
+    width: 100%;
+    height: 5px;
+    border: 1px solid var(--color-borders);
+    padding: 0px;
+}
+
+.villagerHomeEnergyDisplayFiller{
+    background: var(--color-energy);
+    height: 5px;
+    margin: 0;
+}
+
+.removeVillagerButton{
+    margin-top: 5px;
+    float: right;
+}
+
+.component{
+    background: var(--color-divBG);
+    margin: 0px 0px 5px 5px;
+    border: 2px solid #2A363B;
+    width: 25%;
+    padding: 5px;
+    overflow: scroll;
+    max-height: 350px;
+
+
+}
+
+#builderComponent{
+    margin-right: 5px;
+}
+
+#buildingBar{
+    width: 80%;
+    height: 10px;
+    border: 1px solid var(--color-borders);
+    margin: 0px auto;
+}
+
+#buildingBarFiller{
+    background: var(--color-energy);
+    height: 10px;
+    width: 100%;
+}
+
+#buildingOptions{
+    margin: 5px auto;
+    display: inline;
+
+}
+
+#buildingOptions button{
+    height: 60px;
+    text-align: center;
+}
+
+.buildingCost{
+    font-size: 10px;
+}
+
+.infoBox{
+    display: flex;
+    justify-content: center;
+    margin: -5px 0px 5px;
+}
+
+audio{
+    display: none;
+}
+
+.disabled{
+    pointer-events: none;
+}
+
+a.info{
+    position:relative; /*this is the key*/
+    z-index:24; background-color:#ccc;
+    color:#000;
+    text-decoration:none}
+
+a.info:hover{z-index:25;}
+
+a.info span{display: none}
+
+a.info:hover span{ /*the span will display just on :hover state*/
+    display:block;
+    position:absolute;
+    top:1em; right: 1em;
+    padding: 5px;
+    border:1px solid var(--color-borders);
+    background-color: var(--color-scrollBarBG); color: var(--color-buttonTextHoverBG);
+    text-align: center}
+
+#helpDiv{
+    display: none;
+    background: var(--color-buttonTextHoverBG);
+    width: 500px;
+    border: 2px solid var(--color-borders);
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 10px;
+}
+
+#helpExplaination{
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px dotted var(--color-borders);
+    width: 450px;
+}
