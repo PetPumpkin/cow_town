@@ -438,7 +438,6 @@ function enemyCheck(){
         nextAttackCountdown--;
     }
 
-    document.getElementById("nextAttack").innerHTML = nextAttackCountdown;
 }
 
 function endGame(){
@@ -483,6 +482,8 @@ function updateGameText(){ //and manage some resource math
 
     //DAYS
     document.getElementById("text_days").innerHTML = total_days;
+    document.getElementById("nextAttack").innerHTML = nextAttackCountdown;
+
 
     //WALL
     document.getElementById("wallStrength").innerHTML = wallStrength;
