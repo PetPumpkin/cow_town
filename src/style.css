@@ -242,6 +242,12 @@ button:hover{
     float: right;
 }
 
+#villagerName{
+    display: inline-block;
+    width: 70%;
+    overflow-x: hidden;
+}
+
 .component{
     background: var(--color-divBG);
     margin: 0px 0px 5px 5px;

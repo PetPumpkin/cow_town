@@ -120,6 +120,7 @@ function gameRestart(){
     wallStrength = 0;
     buildingWallTick = 0;
     buildingHomeTick = 0;
+    nextAttackCountdown = 20;
     total_days = 0;
     timeOfDay = 0;
 
@@ -225,8 +226,6 @@ function gameSpeed(speed){
 
             return;
     }
-
-
     clearInterval(resourceIntervalId);
 
     resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
@@ -259,7 +258,6 @@ function calculateResources(){
         total_wood += villager_wood_generation * total_collectors;
         total_wood_collected += villager_wood_generation * total_collectors
         audio_gotWood.play();
-
     }
 
     building();
@@ -271,7 +269,6 @@ function calculateResources(){
 }
 
 function building(){
-
     if(buildHomesNow){
         buildingHomes();
     }else{
@@ -280,7 +277,6 @@ function building(){
 }
 
 function buildHomes(){
-
     audio_buildingChange.play();
 
     buildHomesNow = true;
@@ -304,7 +300,6 @@ function buildWalls(){
     buildHomesNow = false;
 
     document.getElementById("currentlyBuilding").innerHTML = "walls";
-
 
     let buildHomesButton = document.getElementById("build_homes");
     let buildWallsButton = document.getElementById("build_walls");
@@ -629,7 +624,7 @@ function addFoodForager(){
 
     let newForager = document.createElement("div");
     newForager.className = "newForager";
-    newForager.insertAdjacentHTML('afterbegin', chosenVillager.name + '<button id="removeVillagerButton" class="removeVillagerButton">-</button><div class="villagerEnergyDisplay"><div id="tempId" class="villagerEnergyDisplayFiller"></div></div>');
+    newForager.insertAdjacentHTML('afterbegin', `<p id='villagerName'>${chosenVillager.name}</p>` + '<button id="removeVillagerButton" class="removeVillagerButton">-</button><div class="villagerEnergyDisplay"><div id="tempId" class="villagerEnergyDisplayFiller"></div></div>');
     newForager.id = "villager_" + chosenVillager.id;
 
     document.getElementById('foodForagersDiv').appendChild(newForager);
@@ -654,7 +649,7 @@ function addWoodCollector(){
 
     let newCollector = document.createElement("div");
     newCollector.className = "newCollector";
-    newCollector.insertAdjacentHTML('afterbegin', chosenVillager.name + '<button id="removeVillagerButton" class="removeVillagerButton">-</button><div class="villagerEnergyDisplay"><div id="tempId" class="villagerEnergyDisplayFiller"></div></div>');
+    newCollector.insertAdjacentHTML('afterbegin', `<p id='villagerName'>${chosenVillager.name}</p>` + '<button id="removeVillagerButton" class="removeVillagerButton">-</button><div class="villagerEnergyDisplay"><div id="tempId" class="villagerEnergyDisplayFiller"></div></div>');
     newCollector.id = "villager_" + chosenVillager.id;
 
     document.getElementById('woodCollectorsDiv').appendChild(newCollector);
@@ -679,7 +674,7 @@ function addBuilder(){
 
     let newBuilder = document.createElement("div");
     newBuilder.className = "newBuilder";
-    newBuilder.insertAdjacentHTML('afterbegin', chosenVillager.name + '<button id="removeVillagerButton" class="removeVillagerButton">-</button><div class="villagerEnergyDisplay"><div id="tempId" class="villagerEnergyDisplayFiller"></div></div>');
+    newBuilder.insertAdjacentHTML('afterbegin', `<p id='villagerName'>${chosenVillager.name}</p>` + '<button id="removeVillagerButton" class="removeVillagerButton">-</button><div class="villagerEnergyDisplay"><div id="tempId" class="villagerEnergyDisplayFiller"></div></div>');
     newBuilder.id = "villager_" + chosenVillager.id;
 
     document.getElementById('buildersDiv').appendChild(newBuilder);
