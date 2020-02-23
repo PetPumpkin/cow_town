@@ -1,7 +1,7 @@
 var total_villagers = 2;
 var total_homes = 1;
 
-var total_food = 10;
+var total_food = 100000;
 var food_upkeep = 0;
 var villager_food_cost = 5;
 var villager_food_generation = 1;
@@ -11,10 +11,11 @@ var villagers_per_home = 2;
 
 var total_foragers = 0;
 
-var total_wood = 0;
+var total_wood = 10000;
 var total_collectors = 0;
 
 var total_builders = 0;
+var total_atHome = 0;
 
 var wallStrength = 0;
 var wallLimit = 100;
@@ -77,8 +78,7 @@ var gameStarted = false;
 preGameStart();
 
 function preGameStart(){
-    document.getElementById("gameContentDiv").style.display = "none";
-    document.getElementById("speedControlDiv").style.display = "none";
+    setMultipleDivDisplay(["gameDiv", "speedControlDiv"], false);
 }
 
 function gameStart(){
@@ -88,19 +88,19 @@ function gameStart(){
     audio_gameStart.play();
 
     
-    resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
+   resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
     
-    document.getElementById("gameContentDiv").style.display = "block";
-    document.getElementById("speedControlDiv").style.display = "block";
+    setMultipleDivDisplay(["gameDiv", "speedControlDiv"], true);
+    setMultipleDivDisplay(["menuDiv", "startGameButton"], false);
 
-    document.getElementById("startGameButton").style.display = "none";
-
-    addVillager(2, false);
+    addVillager(40, false);
     buildHomes();
     gameSpeed(0);
 
     document.addEventListener('keydown', keypressHandler);
 }
+
+
 
 function gameRestart(){
     document.removeEventListener('keydown', keypressHandler);
@@ -118,6 +118,8 @@ function gameRestart(){
     total_cows = 0;
     enemyStrength = 2.5;
     wallStrength = 0;
+    buildingWallTickLimit = 1000;
+    buildingHomeTickLimit = 1000;
     buildingWallTick = 0;
     buildingHomeTick = 0;
     nextAttackCountdown = 20;
@@ -129,34 +131,8 @@ function gameRestart(){
     gameStart();
 }
 
-function Villager(){
-
-    this.name = nameList[Math.floor((Math.random() * nameList.length - 1) + 1)];
-    this.energy = 100;
-
-    this.id = ids;
-    ids++;
-
-    this.isWorking = false;
-    this.isDead = false;
-}
-
-function addVillager(howMany, displayPrompt){
-    
-    for (let i = 0; i < howMany; i++) {
-        villagers.push(new Villager());
-        returnHome(villagers[villagers.length - 1]);    
-        if(displayPrompt){
-            updateText(villagers[villagers.length - 1].name + " joined the town");
-        }
-    }
-
-    total_cows += howMany;
-}
-
-
-
 function keypressHandler(e){
+
     var key = e.code || e.key || e.which;
 
     if (key === '49' || key === 'Digit1' || key === "1") {
@@ -328,6 +304,8 @@ function buildingHomes(){
             audio_buildingFinished.play();
             updateText("new home built");
             total_homes++;
+
+            buildingHomeTickLimit += 500;
         }
     }
 }
@@ -351,6 +329,8 @@ function buildingWalls(){
             audio_buildingFinished.play();
             updateText("walls reinforced");
             wallStrength += 5;
+
+            buildingWallTickLimit += 500;
         }
     }
 }
@@ -421,6 +401,7 @@ function enemyCheck(){
             return;
         }else{
             wallStrength -= enemyStrength;
+            buildingWallTickLimit -= (enemyStrength * 100)
             attacksSurvived++;
 
             updateText("walls held, enemy retreating");
@@ -484,7 +465,6 @@ function updateGameText(){ //and manage some resource math
     document.getElementById("text_days").innerHTML = total_days;
     document.getElementById("nextAttack").innerHTML = nextAttackCountdown;
 
-
     //WALL
     document.getElementById("wallStrength").innerHTML = wallStrength;
     document.getElementById("enemyStrength").innerHTML = enemyStrength;
@@ -497,227 +477,11 @@ function updateGameText(){ //and manage some resource math
         document.getElementById("wallStrength").style.color = "#E84A5F";
     }
 
-
     //BUILD PRICES
-    document.getElementById("homesWoodCost").innerHTML = ((buildingHomeTickLimit + (total_homes * 100)) / buildingHomeTickPerWood) + " wood";
-    document.getElementById("wallsWoodCost").innerHTML = ((buildingWallTickLimit + (wallStrength * 100)) / buildingWallTickPerWood) + " wood";
+    document.getElementById("homesWoodCost").innerHTML = (buildingHomeTickLimit / buildingHomeTickPerWood) + " wood";
+    document.getElementById("wallsWoodCost").innerHTML = (buildingWallTickLimit / buildingWallTickPerWood) + " wood";
 }
 
-function getVillagersAtHome(){
-    let villagersAtHome = 0;
-    
-    villagers.forEach(villager => {
-        if(!villager.isWorking){
-            villagersAtHome++;
-        }
-    });
-
-    return villagersAtHome;
-}
-
-function drainVillagersEnergy(){
-    villagers.forEach(villager => {
-        if(villager.isWorking){
-            if(villager.energy <= 0){
-                //villager dies
-
-                //click on the remove button via code
-                killVillager(villager);
-            }else{
-                villager.energy -= villager_energy_decay;
-            }
-        }else{
-            if(villager.energy < 100){
-                villager.energy += villager_energy_gain;
-            }
-        }
-
-        if(document.getElementById("energy_" + villager.id) != null){
-            document.getElementById("energy_" + villager.id).style.width = villager.energy + "%";
-        };
-    });
-}
-
-function killVillager(villager){
-    audio_villagerDeath.play();
-
-    updateText(villager.name + " died");
-    
-    villager.isDead = true;
-
-    if(villager.isWorking){
-        document.getElementById("remove_" + villager.id).click();
-    }else{
-        document.getElementById("villager_" + villager.id).remove();
-    }
-
-    villagers.splice(villagers.indexOf(villager), 1); 
-
-    if(villagers.length == 0){
-        endGame();
-        return;
-    }
-}
-
-///EVERYTHING WHAT GOT TO DO MIT MOVING THE PEEPS AROUND
-
-function returnHome(villagerToGoHome){
-    audio_buttonPressDown.play();
-    
-    villagerToGoHome.isWorking = false;
-
-    let newAtHome = document.createElement("div");
-    newAtHome.className = "newAtHome";
-    newAtHome.insertAdjacentHTML('afterbegin', villagerToGoHome.name + '<div class="villagerHomeEnergyDisplay"><div id="tempId" class="villagerHomeEnergyDisplayFiller"></div></div>');
-    newAtHome.id = "villager_" + villagerToGoHome.id;
-
-    document.getElementById('atHomeDiv').appendChild(newAtHome);
-
-    let fillerDiv = document.getElementById("tempId");
-    fillerDiv.id = "energy_" + villagerToGoHome.id;
-}
-
-function removeFromHome(villager){
-    audio_buttonPressUp.play();
-
-   document.getElementById("villager_" + villager.id).remove();
-}
-
-function chooseAvailableVillager(){
-    let potentialVillagers = [];
-    let newVillager = undefined;
-
-    villagers.forEach(villager => {
-        if(!villager.isWorking){
-            potentialVillagers.push(villager);
-        }
-    });
-
-    let currentHighest = 0;
-
-    potentialVillagers.forEach(villager => {
-        if(villager.energy > currentHighest){
-            currentHighest = villager.energy;
-            newVillager = villager;
-        }
-    });
-
-    if(potentialVillagers.length > 0){
-        
-        return newVillager;
-    }else{
-        return undefined;
-    }
-}
-
-function addFoodForager(){
-
-    let chosenVillager = chooseAvailableVillager();
-    
-    if(chosenVillager === undefined){
-        return;
-    }
-
-    chosenVillager.isWorking = true;
-    total_foragers++;
-
-    removeFromHome(chosenVillager);
-
-    let newForager = document.createElement("div");
-    newForager.className = "newForager";
-    newForager.insertAdjacentHTML('afterbegin', `<p id='villagerName'>${chosenVillager.name}</p>` + '<button id="removeVillagerButton" class="removeVillagerButton">-</button><div class="villagerEnergyDisplay"><div id="tempId" class="villagerEnergyDisplayFiller"></div></div>');
-    newForager.id = "villager_" + chosenVillager.id;
-
-    document.getElementById('foodForagersDiv').appendChild(newForager);
-
-    let fillerDiv = document.getElementById("tempId");
-    fillerDiv.id = "energy_" + chosenVillager.id;
-
-    addVillagerRemoveButton(chosenVillager, 0);
-}
-
-function addWoodCollector(){
-    let chosenVillager = chooseAvailableVillager();
-    
-    if(chosenVillager === undefined){
-        return;
-    }
-
-    chosenVillager.isWorking = true;
-    total_collectors++;
-
-    removeFromHome(chosenVillager);
-
-    let newCollector = document.createElement("div");
-    newCollector.className = "newCollector";
-    newCollector.insertAdjacentHTML('afterbegin', `<p id='villagerName'>${chosenVillager.name}</p>` + '<button id="removeVillagerButton" class="removeVillagerButton">-</button><div class="villagerEnergyDisplay"><div id="tempId" class="villagerEnergyDisplayFiller"></div></div>');
-    newCollector.id = "villager_" + chosenVillager.id;
-
-    document.getElementById('woodCollectorsDiv').appendChild(newCollector);
-
-    let fillerDiv = document.getElementById("tempId");
-    fillerDiv.id = "energy_" + chosenVillager.id;
-
-    addVillagerRemoveButton(chosenVillager, 1);
-}
-
-function addBuilder(){
-    let chosenVillager = chooseAvailableVillager();
-    
-    if(chosenVillager === undefined){
-        return;
-    }
-
-    chosenVillager.isWorking = true;
-    total_builders++;
-
-    removeFromHome(chosenVillager);
-
-    let newBuilder = document.createElement("div");
-    newBuilder.className = "newBuilder";
-    newBuilder.insertAdjacentHTML('afterbegin', `<p id='villagerName'>${chosenVillager.name}</p>` + '<button id="removeVillagerButton" class="removeVillagerButton">-</button><div class="villagerEnergyDisplay"><div id="tempId" class="villagerEnergyDisplayFiller"></div></div>');
-    newBuilder.id = "villager_" + chosenVillager.id;
-
-    document.getElementById('buildersDiv').appendChild(newBuilder);
-
-    let fillerDiv = document.getElementById("tempId");
-    fillerDiv.id = "energy_" + chosenVillager.id;
-
-    addVillagerRemoveButton(chosenVillager, 2);
-}
-
-function addVillagerRemoveButton(villagerId, jobNum){
-    let newButton = document.getElementById("removeVillagerButton");
-    newButton.id = "remove_" + villagerId.id;
-    
-    document.getElementById("remove_" + villagerId.id).addEventListener("click", function(){
-        
-        function findVillager(villager){
-            return villager.id === villagerId.id;
-        }
-
-        villagers.find(findVillager).isWorking = false;
-
-
-        document.getElementById("villager_" + villagerId.id).remove();
-
-        switch(jobNum){
-            case 0:
-                total_foragers--;
-                break;
-            case 1:
-                total_collectors--;
-                break;
-            case 2:
-                total_builders--;
-                break;
-        }
-
-        if(!villagerId.isDead){
-            returnHome(villagerId);
-        }
-    });
-}
 
 var helpOn = false;
 

@@ -39,9 +39,10 @@ body{
 }
 
 #gameDiv{
+    display: none;
     margin: 5px auto;
     border: 2px solid var(--color-borders);
-    min-width: 600px;
+    min-width: 700px;
     max-width: 700px;
     max-height: 700px;
 }
@@ -59,7 +60,8 @@ h1{
 }
 
 h4{
-    margin: 10px;
+    margin: 5px;
+    display: inline-block;
 }
 
 hr{
@@ -68,6 +70,32 @@ hr{
 
 p{
     margin: 2px;
+}
+
+#menuDiv{
+    text-align: center;
+    padding: 5px;
+}
+
+#menuDiv img{
+    display: block;
+    margin: 10px;
+    width: 600px;
+    height: 400px;
+    border: 2px solid var(--color-borders);
+}
+
+.centered{
+    position: fixed;
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+.bordered{
+    margin: 5px;
+    border: 2px solid var(--color-borders);
+    background: var(--color-divBG);
 }
 
 #titleDiv{
@@ -103,7 +131,7 @@ button:hover{
     justify-content: space-evenly;
 }
 
-#foodForagersDiv, #woodCollectorsDiv, #buildersDiv, #atHomeDiv{
+#foodJobDiv, #woodJobDiv, #buildJobDiv, #homeJobDiv, #scienceJobDiv{
     overflow-x: hidden;
     overflow-y: scroll;
 
@@ -124,6 +152,12 @@ button:hover{
     background: var(--color-buttonHoverBG); 
   }
 
+#infoPanel{
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
 #resourceOverview{
     margin: 5px;
     border: 2px solid var(--color-borders);
@@ -132,7 +166,6 @@ button:hover{
     white-space: nowrap;
     overflow: hidden;
     overflow-x: scroll;
-    
 }
 
 #updateText{
@@ -149,11 +182,10 @@ button:hover{
     text-overflow: ellipsis;
 }
 
-
 #dayCycle{
     margin: 2px auto 5px;
     height: 20px;
-    width: 100%;
+    width: 80%;
     border: 1px solid var(--color-borders);
     text-align: center;
 }
@@ -161,6 +193,7 @@ button:hover{
 #dayCycleFiller{
     background: var(--color-dayBar);
     height: 20px;
+    float: left;
 }
 
 #dayCycleDiv{
@@ -169,7 +202,11 @@ button:hover{
     margin: 5px;
     padding: 5px;
     background: var(--color-divBG);
+}
 
+#leftPanel{
+    width: 60%;
+    margin-right: -5px;
 }
 
 #boldenText{
@@ -182,6 +219,8 @@ button:hover{
     border: 2px solid var(--color-borders);
     text-align: center;
     background: var(--color-divBG);
+    display: inline-block;
+    width: 40%;
 }
 
 #wallDisplay{
@@ -196,7 +235,6 @@ button:hover{
     background: var(--color-wallStrength);
     float: left;
     height: 20px;
-
 }
 
 #enemyStrengthFiller{
@@ -212,7 +250,6 @@ button:hover{
 }
 
 .villagerEnergyDisplay{
-    width: 80%;
     height: 5px;
     border: 1px solid var(--color-borders);
     padding: 0px;
@@ -252,15 +289,14 @@ button:hover{
     background: var(--color-divBG);
     margin: 0px 0px 5px 5px;
     border: 2px solid #2A363B;
-    width: 25%;
+    width: 20%;
+    text-align:center;
     padding: 5px;
     overflow: scroll;
     max-height: 350px;
-
-
 }
 
-#builderComponent{
+#scientistComponent{
     margin-right: 5px;
 }
 
@@ -278,13 +314,14 @@ button:hover{
 }
 
 #buildingOptions{
+    text-align: center;
     margin: 5px auto;
     display: inline;
-
 }
 
 #buildingOptions button{
     height: 60px;
+    padding: 2px;
     text-align: center;
 }
 
@@ -337,6 +374,8 @@ a.info:hover span{ /*the span will display just on :hover state*/
     text-align: center;
     padding: 10px;
 }
+
+
 
 #helpExplaination{
     margin: 10px auto;

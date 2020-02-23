@@ -14,16 +14,26 @@
         <script src='https://cdn1.kongregate.com/javascripts/kongregate_api.js'></script>
         <script src="src/howler.js"></script>
         <script src="src/kong.js"  async></script>
+
+        <script src="src/functions.js" defer></script>
+        <script src="src/villager.js" defer></script>
         <script src="src/names.js" defer></script>
         <script src="src/audio.js" defer></script>
         <script src="src/updateText.js" defer></script>
         <script src="src/script.js" defer></script>
+        <script src="src/eventListeners.js" defer></script>
     </head>
     <body>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-            
+            <div id="menuDiv" class="centered bordered">
+                <h1>cow town</h1>
+                <button onclick="gameStart()">start new game</button>
+                <img src="src/bg.jpg">
+                <p>created by <a href="https://petpumpkin.net">Pet Pumpkin</a>, testing and artwork by Avocadog</p>
+                
+            </div>
             <div id="gameDiv">
                 <div id="titleDiv">
                     <h1>cow town</h1>
@@ -43,32 +53,32 @@
                         <button id="menu_help" class="menuControls" onclick="helpToggle()">help</button>
                     </div>
                 </div>
-                
-                    <div id="resourceOverview">
-                        <span id="updateText"></span><span id="oldUpdateText"></span>
-                    </div>
-                <div id="gameContentDiv">       
-                    <div id="dayCycleDiv">
-                        <span id="boldenText">days survived: </span><span id="text_days"></span>
-                        
-                        <div id="dayCycle"><div id="dayCycleFiller"></div></div>
-                        
-                    </div>
-
-                    <div id="wallDisplayDiv">
-                        <span id="boldenText">wall strength: </span><span id="wallStrength">0</span>
-                        <hr>
-                        <div id="enemyPanel" >
-                            <span id="boldenText">enemy strength: </span><span id="enemyStrength">0</span>
-                            <hr>
-                            <span id="boldenText">next attack: </span><span id="nextAttack">10</span><span> days</span>
+                    <div id="infoPanel">
+                        <div id="leftPanel">
+                            <div id="resourceOverview">
+                                <span id="updateText"></span><span id="oldUpdateText"></span>
+                            </div>
+                                <div id="dayCycleDiv">
+                                    <span id="boldenText">days survived: </span><span id="text_days"></span>
+                                    
+                                    <div id="dayCycle"><div id="dayCycleFiller"></div></div>
+                                </div>
                         </div>
-                    
+
+                        <div id="wallDisplayDiv">
+                            <span id="boldenText">wall strength: </span><span id="wallStrength">0</span>
+                            <hr>
+                            <div id="enemyPanel" >
+                                <span id="boldenText">enemy strength: </span><span id="enemyStrength">0</span>
+                                <hr>
+                                <span id="boldenText">next attack: </span><span id="nextAttack">10</span><span> days</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="gameComponentsDiv">
                         <div id="homeComponent" class="component">
-                            <h4>town </h4>
+                            <h4>homes </h4>
                             <hr>
                             <div class="infoBox">
                                 <p>homes:</p>
@@ -80,7 +90,7 @@
                             </div>
                             
                             <hr>
-                            <div id="atHomeDiv"></div>
+                            <div id="homeJobDiv"></div>
 
                         </div>
                         <div id="foodComponent" class="component">
@@ -94,9 +104,10 @@
                             <p>upkeep:</p>
                             <p id="resText_foodUpkeep" class="resText_value">0</p>
                             </div>
-                            <button id="add_foodForagers" onclick="addFoodForager()">+</button>
+                            <button id="add_foodForagers">+</button>
+                            <button id="remove_foodForagers">-</button>
                             <hr>
-                            <div id="foodForagersDiv"></div>
+                            <div id="foodJobDiv"></div>
                         </div>
                         <div id="woodComponent" class="component">
                             <h4>wood</h4>
@@ -105,9 +116,11 @@
                             <p>stock:</p>
                             <p id="resText_wood">0</p>
                             </div>
-                            <button id="add_woodCollectors" onclick="addWoodCollector()">+</button>
+                            <button id="add_woodCollectors">+</button>
+                            <button id="remove_woodCollectors">-</button>
+
                             <hr>
-                            <div id="woodCollectorsDiv"></div>
+                            <div id="woodJobDiv"></div>
                         </div>
                         <div id="builderComponent" class="component">
                             <h4>build</h4>
@@ -116,21 +129,41 @@
                             <p>builders:</p>
                             <p id="resText_builders">0</p>
                             </div>
-                            <button id="add_builders" onclick="addBuilder()">+</button>
+                            <button id="add_builders">+</button>
+                            <button id="remove_builders">-</button>
+
                             <hr>
                             <div id="buildingOptions">
                                 <p>build:</p>
-                                <button id="build_homes" onclick="buildHomes()">homes<hr><p id="homesWoodCost" class="buildingCost"> wood</p></button>
-                                <button id="build_walls" onclick="buildWalls()">walls<hr><p id="wallsWoodCost" class="buildingCost"> wood</p></button>
+                                <button id="build_homes">homes<hr><p id="homesWoodCost" class="buildingCost"> wood</p></button>
+                                <button id="build_walls">walls<hr><p id="wallsWoodCost" class="buildingCost"> wood</p></button>
                             </div>
                             <p id="currentlyBuilding">homes</p>
                             <div id="buildingBar"><div id="buildingBarFiller"></div></div>
                             
                             <hr>
-                            <div id="buildersDiv"></div>
+                            <div id="buildJobDiv"></div>
+                        </div>
+                        <div id="scientistComponent" class="component">
+                            <h4>upgrade</h4>
+                            <hr>
+                            <div class="infoBox">
+                            <p>scientists:</p>
+                            <p id="resText_scientists">0</p>
+                            </div>
+                            <button id="add_scientist">+</button>
+                            <button id="remove_scientist">-</button>
+
+                            <hr>
+                            <div id="upgradeOptions">
+                                <p>upgrade:</p>
+                            </div>
+                            <p id="currentlyUpgrading"></p>
+                            <div id="upgradeBar"><div id="upgradeBarBarFiller"></div></div>
+                            <hr>
+                            <div id="scientistJobDiv"></div>
                         </div>
                     </div>
-                </div>
             </div>
             <div id="helpDiv">
                 <h1>how to play</h1>
