@@ -14,6 +14,8 @@ var total_foragers = 0;
 var total_wood = 10000;
 var total_collectors = 0;
 
+var total_scientists = 0;
+
 var total_builders = 0;
 var total_atHome = 0;
 
@@ -75,6 +77,8 @@ var gameStarted = false;
 
 
 
+
+
 preGameStart();
 
 function preGameStart(){
@@ -93,7 +97,7 @@ function gameStart(){
     setMultipleDivDisplay(["gameDiv", "speedControlDiv"], true);
     setMultipleDivDisplay(["menuDiv", "startGameButton"], false);
 
-    addVillager(40, false);
+    addVillager(20, false);
     buildHomes();
     gameSpeed(0);
 
@@ -205,7 +209,6 @@ function gameSpeed(speed){
     clearInterval(resourceIntervalId);
 
     resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
-
 }
 
 
@@ -237,8 +240,13 @@ function calculateResources(){
     }
 
     building();
+    doScience();
 
+    //building bar
     document.getElementById("buildingBarFiller").style.width = (((buildHomesNow ? buildingHomeTick : buildingWallTick) / (buildHomesNow ? buildingHomeTickLimit : buildingWallTickLimit)) * 100) + "%";
+
+    //science bar
+    document.getElementById("upgradeBarFiller").style.width = ((scienceTick / scienceTickLimit) * 100) + "%";
 
     drainVillagersEnergy();
     updateGameText();
@@ -305,7 +313,7 @@ function buildingHomes(){
             updateText("new home built");
             total_homes++;
 
-            buildingHomeTickLimit += 500;
+            buildingHomeTickLimit += 50;
         }
     }
 }
@@ -330,10 +338,13 @@ function buildingWalls(){
             updateText("walls reinforced");
             wallStrength += 5;
 
-            buildingWallTickLimit += 500;
+            buildingWallTickLimit += 50;
         }
     }
 }
+
+
+
 
 
 
@@ -401,17 +412,15 @@ function enemyCheck(){
             return;
         }else{
             wallStrength -= enemyStrength;
-            buildingWallTickLimit -= (enemyStrength * 100)
+            buildingWallTickLimit -= (enemyStrength * 10);
+            if(buildingWallTickLimit < 1000){
+                buildingWallTickLimit = 1000;
+            }
             attacksSurvived++;
 
             updateText("walls held, enemy retreating");
 
-
             enemyStrength += attacksSurvived * 2;
-
-            if(enemyStrength > enemyLimit){
-                enemyStrength = enemyLimit;
-            }
 
             nextAttackCountdown = 10;
         }
@@ -460,6 +469,9 @@ function updateGameText(){ //and manage some resource math
 
     //BUILDERS
     document.getElementById("resText_builders").innerHTML = total_builders;
+
+    //SCIENTISTS
+    document.getElementById("resText_scientists").innerHTML = total_scientists;
 
     //DAYS
     document.getElementById("text_days").innerHTML = total_days;

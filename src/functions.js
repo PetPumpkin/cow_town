@@ -30,7 +30,7 @@ const add = (who, toWhere) => {
 
 
     let newWorkingCow = document.createElement("div");
-    newWorkingCow.className = "newForager";
+    newWorkingCow.className = "newWorker";
     newWorkingCow.insertAdjacentHTML('afterbegin', 
         `<p id='villagerName' class='villager${who.id}'>${who.name}</p>
         <div class="villagerEnergyDisplay">
@@ -113,6 +113,7 @@ const updateCurrentJobNumbers = () => {
     total_foragers = 0;
     total_collectors = 0;
     total_builders = 0;
+    total_scientists = 0;
 
     villagers.forEach(villager => {
         switch(villager.currentJob){
@@ -127,6 +128,9 @@ const updateCurrentJobNumbers = () => {
             break;
             case "build":
                 total_builders++;
+            break;
+            case "scientist":
+                total_scientists++;
             break;
         }
     });

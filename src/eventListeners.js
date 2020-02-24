@@ -47,6 +47,10 @@ document.getElementById("remove_builders").addEventListener("click", function(e)
 }); 
 
 document.getElementById("add_scientist").addEventListener("click", function(e){
+
+    if(total_scientists >= scientistLimit){
+        return;
+    }
     if(e.shiftKey){
         addMany(findVillagersWithJob("home"), "scientist");
     }else{

@@ -20,6 +20,8 @@
         <script src="src/names.js" defer></script>
         <script src="src/audio.js" defer></script>
         <script src="src/updateText.js" defer></script>
+        <script src="src/prompt.js" defer></script>
+        <script src="src/upgrades.js" defer></script>
         <script src="src/script.js" defer></script>
         <script src="src/eventListeners.js" defer></script>
     </head>
@@ -159,7 +161,7 @@
                                 <p>upgrade:</p>
                             </div>
                             <p id="currentlyUpgrading"></p>
-                            <div id="upgradeBar"><div id="upgradeBarBarFiller"></div></div>
+                            <div id="upgradeBar"><div id="upgradeBarFiller"></div></div>
                             <hr>
                             <div id="scientistJobDiv"></div>
                         </div>
@@ -170,6 +172,12 @@
                 <p id="helpExplaination">cow town is a simple village management simulator</p>
                 <button onclick="nextExplain()" class="menuControls">next</button>
                 <button onclick="helpToggle()" class="menuControls">okay got it</button>
+            </div>
+
+            <div id="promptBox">
+                <h1 id="promptTitle"></h1>
+                <p id="promptText"></p>
+                <button onclick="closePrompt()" class="menuControls">okay got it</button>
             </div>
     </body>
 </html>

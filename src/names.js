@@ -25,7 +25,7 @@ const nameList = [
     "Chiara",
     "Jantien",
     "Nhi",
-    "Christopher",
+    "Christoph",
     "Peter",
     "Benjamin",
     "Heidi",
@@ -38,7 +38,6 @@ const nameList = [
     "Sakura",
     "Sasuke",
     "Hokage",
-    "Huschikage",
     "Kakashi",
     "Rock Lee",
     "Guy"

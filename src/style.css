@@ -245,8 +245,8 @@ button:hover{
     width: 0%;
 }
 
-.newForager, .newCollector, .newBuilder, .newAtHome{
-    margin: 5px;
+.newWorker{
+    margin: 2px;
 }
 
 .villagerEnergyDisplay{
@@ -258,7 +258,7 @@ button:hover{
 .villagerEnergyDisplayFiller{
     background: var(--color-energy);
     height: 5px;
-    margin: 0;
+    margin: 0px;
 }
 
 .villagerHomeEnergyDisplay{
@@ -280,6 +280,8 @@ button:hover{
 }
 
 #villagerName{
+    font-size: 13px;
+    margin-bottom: 0px;
     display: inline-block;
     width: 70%;
     overflow-x: hidden;
@@ -300,14 +302,14 @@ button:hover{
     margin-right: 5px;
 }
 
-#buildingBar{
+#buildingBar, #upgradeBar{
     width: 80%;
     height: 10px;
     border: 1px solid var(--color-borders);
     margin: 0px auto;
 }
 
-#buildingBarFiller{
+#buildingBarFiller, #upgradeBarFiller{
     background: var(--color-energy);
     height: 10px;
     width: 100%;
@@ -315,18 +317,22 @@ button:hover{
 
 #buildingOptions{
     text-align: center;
-    margin: 5px auto;
+    margin: 5px 0px;
     display: inline;
 }
 
 #buildingOptions button{
     height: 60px;
+    width: 50px;
     padding: 2px;
+    margin: 0px;
     text-align: center;
 }
 
 .buildingCost{
     font-size: 10px;
+    overflow-x: hidden;
+
 }
 
 .infoBox{
@@ -362,7 +368,7 @@ a.info:hover span{ /*the span will display just on :hover state*/
     background-color: var(--color-scrollBarBG); color: var(--color-buttonTextHoverBG);
     text-align: center}
 
-#helpDiv{
+#helpDiv, #promptBox{
     display: none;
     background: var(--color-buttonTextHoverBG);
     width: 500px;
@@ -377,7 +383,7 @@ a.info:hover span{ /*the span will display just on :hover state*/
 
 
 
-#helpExplaination{
+#helpExplaination, #promptText{
     margin: 10px auto;
     padding: 10px;
     border: 1px dotted var(--color-borders);
