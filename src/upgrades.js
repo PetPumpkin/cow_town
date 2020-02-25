@@ -21,14 +21,34 @@ const doUpgrade = () =>{
     potentialUpgrades[randomNum]();
 }
 
-const potentialUpgrades = [
-    increaseWoodCollection = () =>{
-        
-    },
-    increaseFoodCollection = () =>{
+let chanceForDoubleWood = 0;
+const chanceForDoubleWoodIncrease = 1;
 
+let chanceForDoubleFood = 0;
+const chanceForDoubleFoodIncrease = 1;
+
+const villagerEnergyDrainDecrease = 0.025;
+const villagerEnergyGainIncrease = 0.05;
+
+const potentialUpgrades = [
+    increaseChanceForDoubleWood = () =>{
+        displayPrompt("double food", "your chance to find double wood has increased by " + chanceForDoubleWoodIncrease + "%");
+        chanceForDoubleWood += chanceForDoubleWoodIncrease;
+    },
+    increaseChanceForDoubleFood = () =>{
+        displayPrompt("double wood", "your chance to find double food has increased by " + chanceForDoubleFoodIncrease + "%");
+        chanceForDoubleFood += chanceForDoubleFoodIncrease;
     },
     increaseWallStrengthOnBuild = () =>{
-
+        displayPrompt("more walls", "your wall strength increased by an extra point when built");
+        wallStrengthIncreaseAmount += 1;
+    },
+    increaseCowEnergyRegain = () => {
+        displayPrompt("better rest", "your cows now regain their energy faster when at home");
+        villager_energy_gain += villagerEnergyGainIncrease;
+    },
+    reduceCowEnergyDrain = () => {
+        displayPrompt("higher stamina", "your cows energy now reduces slower while working");
+        villager_energy_decay -= villagerEnergyDrainDecrease;
     }
 ];

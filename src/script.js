@@ -20,9 +20,8 @@ var total_builders = 0;
 var total_atHome = 0;
 
 var wallStrength = 0;
-var wallLimit = 100;
+var wallStrengthIncreaseAmount = 5;
 var enemyStrength = 2;
-var enemyLimit = 100;
 
 var buildHomesNow = true;
 
@@ -211,6 +210,11 @@ function gameSpeed(speed){
     resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
 }
 
+const rollDie = (chanceOutOfThousand) => {
+    let randNum = Math.floor(Math.random() * 1000);
+    console.log(randNum);
+    return Math.floor(randNum <= chanceOutOfThousand);
+}   
 
 function calculateResources(){
 
@@ -220,10 +224,16 @@ function calculateResources(){
         foodTick++;
     }
 
-    if(foodTick >= (foodTickLimit - (total_foragers / 2))){
+    if(foodTick >= (foodTickLimit - (total_foragers / 4))){
         foodTick = 0;
         total_food += villager_food_generation * total_foragers;
         total_food_collected += villager_food_generation * total_foragers;
+
+        if(rollDie(chanceForDoubleFood)){
+            updateText("got double food");
+            total_food += villager_food_generation * total_foragers;
+        }
+
         audio_gotFood.play();
     }
 
@@ -232,10 +242,16 @@ function calculateResources(){
         woodTick++;
     }
 
-    if(woodTick >= (woodTickLimit - (total_collectors / 2))){
+    if(woodTick >= (woodTickLimit - (total_collectors / 4))){
         woodTick = 0;
         total_wood += villager_wood_generation * total_collectors;
-        total_wood_collected += villager_wood_generation * total_collectors
+        total_wood_collected += villager_wood_generation * total_collectors;
+
+        if(rollDie(chanceForDoubleWood)){
+            updateText("got double wood");
+            total_wood_collected += villager_wood_generation * total_collectors;
+        }
+
         audio_gotWood.play();
     }
 
@@ -336,7 +352,7 @@ function buildingWalls(){
             buildingWallTick = 0;
             audio_buildingFinished.play();
             updateText("walls reinforced");
-            wallStrength += 5;
+            wallStrength += wallStrengthIncreaseAmount;
 
             buildingWallTickLimit += 50;
         }
