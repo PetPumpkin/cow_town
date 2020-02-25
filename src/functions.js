@@ -6,8 +6,7 @@ const setMultipleDivDisplay = (divNames, setTo) => {
 
 const removeFromHome = (villager) =>{
     audio_buttonPressUp.play();
-
-   document.getElementById("villager_" + villager.id).remove();
+    document.getElementById("villager_" + villager.id).remove();
 }
 
 const addMany = (whoArray, toWhere) => {
@@ -16,9 +15,44 @@ const addMany = (whoArray, toWhere) => {
     });
 }
 
+const addManyWithDelay = (whoArray, toWhere) => {
+        setTimeout(function () {
+            if(whoArray.length === 0){
+                return;
+            }
+            add(whoArray[0], toWhere);
+            whoArray.shift();
+            addManyWithDelay(whoArray, toWhere);
+        }, 100);
+}
+
+const removeManyWithDelay = (whoArray) => {
+    setTimeout(function () {
+        if(whoArray.length === 0){
+            return;
+        }
+        remove(whoArray[0]);
+        whoArray.shift();
+        
+        removeManyWithDelay(whoArray);
+    }, 100);
+}
+
 const add = (who, toWhere) => {
     
+    if(gamePaused){
+        return;
+    }
+
+    if(who.isDead){
+        return;
+    }
+    
     if(who === undefined){
+        return;
+    }
+
+    if(toWhere === "scientist" && total_scientists === scientistLimit){
         return;
     }
 
@@ -27,7 +61,6 @@ const add = (who, toWhere) => {
     if(toWhere !== "home"){
         removeFromHome(who);
     }
-
 
     let newWorkingCow = document.createElement("div");
     newWorkingCow.className = "newWorker";
@@ -56,11 +89,21 @@ const removeMany = (whoArray) => {
 
 const remove = (who) => {
 
+    if(gamePaused){
+        return;
+    }
+    
     if(who === undefined){
         return;
     }
 
+    if(who.isDead){
+        return;
+    }
+
     who.currentJob = "home";
+
+    
     document.getElementById("villager_" + who.id).remove();
     add(who, "home");
 
@@ -75,6 +118,18 @@ const findVillagersWithJob = (jobToFind) => {
             villagersWithJob.push(villager);
         }
     });
+
+    return villagersWithJob;
+}
+
+const findHalfVillagersWithJob = (jobToFind) => {
+    let villagersWithJob = findVillagersWithJob(jobToFind);
+
+    for (let i = 0; i < villagersWithJob.length; i++) {
+        if(i % 2 === 0){
+            villagersWithJob.splice(i, 1);
+        }        
+    }
 
     return villagersWithJob;
 }

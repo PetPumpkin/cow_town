@@ -366,7 +366,8 @@ a.info:hover span{ /*the span will display just on :hover state*/
     padding: 5px;
     border:1px solid var(--color-borders);
     background-color: var(--color-scrollBarBG); color: var(--color-buttonTextHoverBG);
-    text-align: center}
+    text-align: center;
+}
 
 #helpDiv, #promptBox{
     display: none;

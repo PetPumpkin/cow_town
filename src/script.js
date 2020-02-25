@@ -1,17 +1,18 @@
 var total_villagers = 2;
 var total_homes = 1;
 
-var total_food = 100000;
+var total_food = 10;
 var food_upkeep = 0;
 var villager_food_cost = 5;
 var villager_food_generation = 1;
 var villager_energy_decay = .3;
-var villager_energy_gain = .7;
+var villager_energy_gain = 0.7;
 var villagers_per_home = 2;
+var villager_fatigue_punishment = 3;
 
 var total_foragers = 0;
 
-var total_wood = 10000;
+var total_wood = 0;
 var total_collectors = 0;
 
 var total_scientists = 0;
@@ -29,15 +30,10 @@ var villager_food_generation = 1;
 var villager_wood_generation = 1;
 
 var timeOfDay = 0;
-var total_days = 0;
-
-var total_wood_collected = 0;
-var total_food_collected = 0;
-var total_cows = 0;
 
 var nextAttackCountdown = 20;
+var nextAttackCountdownBonus = 10;
 var attacksSurvived = 0;
-
 
 var buildingHomeTick = 0;
 var buildingHomeTickLimit = 1000;
@@ -73,10 +69,6 @@ var resourceIntervalId;
 let villagers = [];
 
 var gameStarted = false;
-
-
-
-
 
 preGameStart();
 
@@ -152,6 +144,8 @@ function keypressHandler(e){
     }
 }
 
+let gamePaused = false;
+
 function gameSpeed(speed){
     
     buttons = document.getElementsByTagName("button");
@@ -174,6 +168,8 @@ function gameSpeed(speed){
     speedButton_2.style.opacity = 1;
     speedButton_pause.style.opacity = 1;
 
+    gamePaused = false;
+
     switch(speed){
         case 0:
             resourceCalculationTime = 100;
@@ -192,6 +188,9 @@ function gameSpeed(speed){
             break;
         case 99:
             clearInterval(resourceIntervalId);
+
+            gamePaused = true;
+
             speedButton_pause.style.cursor = "not-allowed";
             speedButton_pause.style.opacity = 0.2;
 
@@ -210,10 +209,9 @@ function gameSpeed(speed){
     resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
 }
 
-const rollDie = (chanceOutOfThousand) => {
-    let randNum = Math.floor(Math.random() * 1000);
-    console.log(randNum);
-    return Math.floor(randNum <= chanceOutOfThousand);
+const rollDie = (chanceOutOfHundred) => {
+    let randNum = Math.floor(Math.random() * 100);
+    return Math.floor(randNum <= chanceOutOfHundred);
 }   
 
 function calculateResources(){
@@ -230,7 +228,6 @@ function calculateResources(){
         total_food_collected += villager_food_generation * total_foragers;
 
         if(rollDie(chanceForDoubleFood)){
-            updateText("got double food");
             total_food += villager_food_generation * total_foragers;
         }
 
@@ -248,7 +245,6 @@ function calculateResources(){
         total_wood_collected += villager_wood_generation * total_collectors;
 
         if(rollDie(chanceForDoubleWood)){
-            updateText("got double wood");
             total_wood_collected += villager_wood_generation * total_collectors;
         }
 
@@ -266,6 +262,13 @@ function calculateResources(){
 
     drainVillagersEnergy();
     updateGameText();
+
+    villagers.forEach(villager => {
+        if(villager.isDead){
+            //document.getElementById("villager_" + villager.id).remove();
+            //villagers.splice(villagers.indexOf(villager), 1);
+        }
+    });
 }
 
 function building(){
@@ -330,6 +333,7 @@ function buildingHomes(){
             total_homes++;
 
             buildingHomeTickLimit += 50;
+            buildingHomeTickLimit -= buildingTimeReduction;
         }
     }
 }
@@ -355,6 +359,7 @@ function buildingWalls(){
             wallStrength += wallStrengthIncreaseAmount;
 
             buildingWallTickLimit += 50;
+            buildingWallTickLimit -= buildingTimeReduction;
         }
     }
 }
@@ -387,7 +392,6 @@ function endOfDay(){
 
     updateText("end of day " + total_days);
 
-    kongregate.stats.submit("survived", total_days);
 
     total_food -= food_upkeep;
 
@@ -438,7 +442,7 @@ function enemyCheck(){
 
             enemyStrength += attacksSurvived * 2;
 
-            nextAttackCountdown = 10;
+            nextAttackCountdown = nextAttackCountdownBonus;
         }
     }else{
         nextAttackCountdown--;
@@ -447,6 +451,9 @@ function enemyCheck(){
 }
 
 function endGame(){
+
+    sendStatsToKong();
+
     audio_gameEnd.play();
 
     document.getElementById("speedControlDiv").style.display = "none";
@@ -459,9 +466,7 @@ function endGame(){
     gameSpeed(99);
     clearInterval(resourceIntervalId);
 
-    kongregate.stats.submit("total_cows", total_cows);
-    kongregate.stats.submit("total_food_collected", total_food_collected);
-    kongregate.stats.submit("total_wood_collected", total_wood_collected);
+
 
 
 }
@@ -470,7 +475,7 @@ function updateGameText(){ //and manage some resource math
     
     //VILLAGERS
     document.getElementById("resText_homes").innerHTML = total_homes;
-    total_villagers = villagers.length;
+    total_villagers = findAliveVillagers();
     document.getElementById("resText_villagers").innerHTML = total_villagers;
 
     //FOOD

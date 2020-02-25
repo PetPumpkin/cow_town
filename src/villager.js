@@ -27,6 +27,9 @@ const addVillager = (howMany, displayPrompt) =>{
 }
 
 const killVillager = (villager) =>{
+
+    
+
     audio_villagerDeath.play();
 
     updateText(villager.name + " died");
@@ -35,11 +38,11 @@ const killVillager = (villager) =>{
 
     if(villager.currentJob !== "home"){
         remove(villager);
-    }else{
-        document.getElementById("villager_" + villager.id).remove();
     }
 
-    villagers.splice(villagers.indexOf(villager), 1); 
+    document.getElementById("villager_" + villager.id).style.display = "none";
+    villagers.splice(villagers.indexOf(villager), 1);
+
 
     if(villagers.length == 0){
         endGame();
@@ -65,7 +68,7 @@ const drainVillagersEnergy = () => {
         }else{
             if(villager.energy < 100){
                 if(villager.isFatigued){
-                    villager.energy += (villager_energy_gain / 3);
+                    villager.energy += (villager_energy_gain / villager_fatigue_punishment);
                 }else{
                     villager.energy += villager_energy_gain;
                 }
@@ -85,6 +88,17 @@ const villagerEnergyDrained = (who) =>{
     remove(who);
     who.isFatigued = true;
     document.getElementById("energy_" + who.id).style.background = "#E84A5F";
+}
+
+const findAliveVillagers = () =>{
+    let totalAlive = 0;
+    villagers.forEach(villager => {
+        if(!villager.isDead){
+            totalAlive++;
+        }
+    });
+
+    return totalAlive;
 }
 
 /*
