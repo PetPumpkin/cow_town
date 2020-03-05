@@ -369,18 +369,28 @@ a.info:hover span{ /*the span will display just on :hover state*/
     text-align: center;
 }
 
-#helpDiv, #promptBox{
+#helpDiv, #promptBox, #statsBox{
     display: none;
     background: var(--color-buttonTextHoverBG);
     width: 500px;
     border: 2px solid var(--color-borders);
     position: fixed;
-    top: 30%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
     padding: 10px;
 }
+
+#statsBox button{
+    display: block;
+}
+
+#statsBox p{
+    display: inline;
+}
+
+
 
 
 

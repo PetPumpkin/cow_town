@@ -23,6 +23,8 @@
         <script src="src/prompt.js" defer></script>
         <script src="src/upgrades.js" defer></script>
         <script src="src/script.js" defer></script>
+        <script src="src/stats.js" defer></script>
+
         <script src="src/eventListeners.js" defer></script>
     </head>
     <body>
@@ -53,6 +55,8 @@
                         <button id="menu_restartGame" class="menuControls" onclick="gameRestart()">restart game</button>
                         <button id="menu_soundToggle" class="menuControls" onclick="audioToggle()">sound <span id="soundOnText">on</span></button>
                         <button id="menu_help" class="menuControls" onclick="helpToggle()">help</button>
+                        <button id="menu_stats" class="menuControls" onclick="statsToggle()">stats</button>
+                        
                     </div>
                 </div>
                     <div id="infoPanel">
@@ -178,6 +182,38 @@
                 <h1 id="promptTitle"></h1>
                 <p id="promptText"></p>
                 <button onclick="closePrompt()" class="menuControls">sweet</button>
+            </div>
+
+            <div id="statsBox">
+                <h1>stats</h1>
+                <div>
+                    <p>games played: </p><span id="totalGamesPlayed"></span>
+                    <hr>
+                    <p>total days survived: </p><span id="totalDaysSurvived"></span>
+                    <hr>
+                    
+                    <p>total attacks survived: </p><span id="totalAttacksSurvived"></span>
+                    <hr>
+                    <p>total cows: </p><span id="totalCows"></span>
+                    <hr>
+                    <p>most cows at one time: </p><span id="highestCows"></span>
+                    <hr>
+                    <p>total food collected: </p><span id="totalFoodCollected"></span>
+                    <hr>
+                    <p>most food at one time: </p><span id="highestFoodCount"></span>
+                    <hr>
+                    <p>total wood collected: </p><span id="totalWoodCollected"></span>
+                    <hr>
+                    <p>most wood at one time: </p><span id="highestWoodCount"></span>
+                    <hr>
+                    <p>total homes built: </p><span id="totalHomesBuilt"></span>
+                    <hr>
+                    <p>total walls built: </p><span id="totalWallsBuilt"></span>
+                    
+                    <button class="menuControls" onclick="statsToggle()">close</button>
+
+
+                </div>
             </div>
     </body>
 </html>

@@ -14,8 +14,9 @@ function Villager(){
 }
 
 const addVillager = (howMany, displayPrompt) =>{
-    
+    console.log("addingVillagers");
     for (let i = 0; i < howMany; i++) {
+        console.log(villagers);
         villagers.push(new Villager());
         add(villagers[villagers.length - 1], "home");
         if(displayPrompt){
@@ -28,20 +29,22 @@ const addVillager = (howMany, displayPrompt) =>{
 
 const killVillager = (villager) =>{
 
-    
-
     audio_villagerDeath.play();
 
     updateText(villager.name + " died");
     
     villager.isDead = true;
+    villager.currentJob = "dead";
 
-    if(villager.currentJob !== "home"){
-        remove(villager);
-    }
+    console.log(villager);
+    console.log(villagers);
 
-    document.getElementById("villager_" + villager.id).style.display = "none";
+    document.getElementById("villager_" + villager.id).remove();
     villagers.splice(villagers.indexOf(villager), 1);
+
+    console.log(villagers);
+
+    updateCurrentJobNumbers();
 
 
     if(villagers.length == 0){
@@ -51,6 +54,13 @@ const killVillager = (villager) =>{
 }
 
 const drainVillagersEnergy = () => {
+
+    console.log(villagers.length);
+
+    if(villagers.length === 0){
+        return;
+    }
+
     villagers.forEach(villager => {
         if(villager.currentJob !== "home"){
             if(villager.energy <= 0){

@@ -40,6 +40,7 @@ const removeManyWithDelay = (whoArray) => {
 
 const add = (who, toWhere) => {
     
+    console.log("adding ")
     if(gamePaused){
         return;
     }
@@ -55,6 +56,8 @@ const add = (who, toWhere) => {
     if(toWhere === "scientist" && total_scientists === scientistLimit){
         return;
     }
+
+    console.log("adding: " + who + " to " + toWhere);
 
     who.currentJob = toWhere;
 

@@ -77,33 +77,24 @@ function preGameStart(){
 }
 
 function gameStart(){
-
+    console.log("gameStart");
     updateText("new game, good luck!");
 
     audio_gameStart.play();
 
     
-   resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
     
     setMultipleDivDisplay(["gameDiv", "speedControlDiv"], true);
     setMultipleDivDisplay(["menuDiv", "startGameButton"], false);
 
-    addVillager(20, false);
+
+    resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
+
+    addVillager(5, false);
     buildHomes();
     gameSpeed(0);
 
     document.addEventListener('keydown', keypressHandler);
-}
-
-
-
-function gameRestart(){
-    document.removeEventListener('keydown', keypressHandler);
-    
-    
-    for (let i = villagers.length - 1; i >= 0; i--) {
-        killVillager(villagers[i]);        
-    }
 
     total_homes = 1;
     total_food = 0;
@@ -120,6 +111,19 @@ function gameRestart(){
     nextAttackCountdown = 20;
     total_days = 0;
     timeOfDay = 0;
+
+}
+
+
+
+function gameRestart(){
+    document.removeEventListener('keydown', keypressHandler);
+    
+    console.log("restarting");
+    
+    for (let i = villagers.length - 1; i >= 0; i--) {
+        killVillager(villagers[i]);        
+    }
 
     clearInterval(resourceIntervalId);
 
@@ -262,13 +266,6 @@ function calculateResources(){
 
     drainVillagersEnergy();
     updateGameText();
-
-    villagers.forEach(villager => {
-        if(villager.isDead){
-            //document.getElementById("villager_" + villager.id).remove();
-            //villagers.splice(villagers.indexOf(villager), 1);
-        }
-    });
 }
 
 function building(){
@@ -331,9 +328,9 @@ function buildingHomes(){
             audio_buildingFinished.play();
             updateText("new home built");
             total_homes++;
+            total_homes_built++;
 
             buildingHomeTickLimit += 50;
-            buildingHomeTickLimit -= buildingTimeReduction;
         }
     }
 }
@@ -357,9 +354,9 @@ function buildingWalls(){
             audio_buildingFinished.play();
             updateText("walls reinforced");
             wallStrength += wallStrengthIncreaseAmount;
+            total_walls_built += wallStrengthIncreaseAmount;
 
             buildingWallTickLimit += 50;
-            buildingWallTickLimit -= buildingTimeReduction;
         }
     }
 }
@@ -452,7 +449,7 @@ function enemyCheck(){
 
 function endGame(){
 
-    sendStatsToKong();
+    //sendStatsToKong();
 
     audio_gameEnd.play();
 
@@ -530,6 +527,22 @@ function helpToggle(){
     }
     
     document.getElementById("helpDiv").style.display = helpOn? "block" : "none";
+}
+
+let statsOn = false;
+
+function statsToggle(){
+    statsOn = !statsOn;
+
+    updateStatsText();
+
+    if(statsOn){
+        gameSpeed(99);
+    }else{
+        gameSpeed(0);
+    }
+
+    document.getElementById("statsBox").style.display = statsOn? "block" : "none";
 }
 
 const explainationText = document.getElementById("helpExplaination");
