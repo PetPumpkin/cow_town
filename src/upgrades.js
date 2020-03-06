@@ -44,14 +44,11 @@ const chanceForDoubleFoodIncrease = 1;
 const villagerEnergyDrainDecrease = 0.0025; //starts at 0.3 - minimum 0.1 (80 upgrades)
 const villagerEnergyGainIncrease = 0.01; //starts at 0.7 - max 2 (130 upgrades)
 
+
 //need to figure out how many of each upgrade is possible - these should be fairly equal
 
 const potentialUpgrades = [
     increaseChanceForDoubleWood = () => {
-        if(chanceForDoubleWood >= 30){
-            return;
-        }
-
         chanceForDoubleWood += chanceForDoubleWoodIncrease;
         if(chanceForDoubleWood >= 30){
             displayPrompt("double wood - MAXED", "awesome! you have maxed out your chance to find double wood");
@@ -64,10 +61,6 @@ const potentialUpgrades = [
         }
     },
     increaseChanceForDoubleFood = () => {
-        if(chanceForDoubleFood >= 30){
-            return;
-        }
-
         chanceForDoubleFood += chanceForDoubleFoodIncrease;
         if(chanceForDoubleFood >= 30){
             displayPrompt("double food - MAXED", "nice! you have maxed out your chance to find double food");
@@ -80,9 +73,6 @@ const potentialUpgrades = [
         }
     },
     increaseWallStrengthOnBuild = () => {
-        if(wallStrengthIncreaseAmount >= 30){
-            return;
-        }
 
         wallStrengthIncreaseAmount += 1;
 
@@ -99,10 +89,6 @@ const potentialUpgrades = [
 
     },
     increaseCowEnergyRegain = () => {
-        if(villager_energy_gain >= 2){
-            return;
-        }
-
         villager_energy_gain += villagerEnergyGainIncrease;
 
         if(villager_energy_gain >= 2){
@@ -117,10 +103,6 @@ const potentialUpgrades = [
         }
     },
     reduceCowEnergyDrain = () => {
-        if(villager_energy_decay <= 0.1){
-            return;
-        }
-
         villager_energy_decay -= villagerEnergyDrainDecrease;
 
         if(villager_energy_decay <= 0.1){
@@ -135,10 +117,6 @@ const potentialUpgrades = [
         }
     },
     reduceCowFatiguePunishment = () => {
-        if(villager_fatigue_punishment <= 1.5){
-            return;
-        }
-
         villager_fatigue_punishment -= 0.025;
 
         if(villager_fatigue_punishment <= 1.5){
@@ -146,14 +124,13 @@ const potentialUpgrades = [
             //prevent this option
             completedUpgrades.push(5);
             potentialUpgrades.splice(potentialUpgrades.indexOf(reduceCowFatiguePunishment), 1);
+
+        
         }else{
             displayPrompt("less fatigue", "fatigued cows now return to full strength faster");
         }
     },
     increaseHomeCapacity = () => {  //rare upgrade
-        if(villagers_per_home >= 10){
-            return;
-        }
         villagers_per_home++;
 
         if(villagers_per_home >= 10){
@@ -168,10 +145,6 @@ const potentialUpgrades = [
         }
     },
     increaseScientistLimit = () => { //rare upgrade
-        if(scientistLimit >= 10){
-            return;
-        }
-
         scientistLimit++;
         if(scientistLimit >= 10){
             displayPrompt("bigger labs - MAXED", "super! your labs capacity has been maxed out");
@@ -185,10 +158,6 @@ const potentialUpgrades = [
         }
     },
     increaseNextAttackTime = () => {
-        if(nextAttackCountdownBonus >= 20){
-            return;
-        }
-
         nextAttackCountdown++;
         nextAttackCountdownBonus++;
 

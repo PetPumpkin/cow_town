@@ -5,7 +5,7 @@ var total_food = 10;
 var food_upkeep = 0;
 var villager_food_cost = 5;
 var villager_food_generation = 1;
-var villager_energy_decay = .3;
+var villager_energy_decay = .25;
 var villager_energy_gain = 0.7;
 var villagers_per_home = 2;
 var villager_fatigue_punishment = 3;
@@ -77,20 +77,18 @@ function preGameStart(){
 }
 
 function gameStart(){
-    console.log("gameStart");
     updateText("new game, good luck!");
 
     audio_gameStart.play();
 
-    
+    total_games_played++;
     
     setMultipleDivDisplay(["gameDiv", "speedControlDiv"], true);
     setMultipleDivDisplay(["menuDiv", "startGameButton"], false);
 
-
     resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
 
-    addVillager(5, false);
+    addVillager(2, false);
     buildHomes();
     gameSpeed(0);
 
@@ -99,30 +97,23 @@ function gameStart(){
     total_homes = 1;
     total_food = 0;
     total_wood = 0;
-    total_wood_collected = 0;
-    total_food_collected = 0;
-    total_cows = 0;
     enemyStrength = 2.5;
     wallStrength = 0;
     buildingWallTickLimit = 1000;
     buildingHomeTickLimit = 1000;
     buildingWallTick = 0;
     buildingHomeTick = 0;
+    scienceTick = 0;
     nextAttackCountdown = 20;
     total_days = 0;
     timeOfDay = 0;
-
 }
-
-
 
 function gameRestart(){
     document.removeEventListener('keydown', keypressHandler);
     
-    console.log("restarting");
-    
     for (let i = villagers.length - 1; i >= 0; i--) {
-        killVillager(villagers[i]);        
+        killVillager(villagers[i], false);        
     }
 
     clearInterval(resourceIntervalId);
@@ -235,6 +226,10 @@ function calculateResources(){
             total_food += villager_food_generation * total_foragers;
         }
 
+        if(total_food > highest_food_count){
+            highest_food_count = total_food;
+        }
+
         audio_gotFood.play();
     }
 
@@ -249,7 +244,11 @@ function calculateResources(){
         total_wood_collected += villager_wood_generation * total_collectors;
 
         if(rollDie(chanceForDoubleWood)){
-            total_wood_collected += villager_wood_generation * total_collectors;
+            total_wood += villager_wood_generation * total_collectors;
+        }
+
+        if(total_wood > highest_wood_count){
+            highest_wood_count = total_wood;
         }
 
         audio_gotWood.play();
@@ -396,11 +395,10 @@ function endOfDay(){
         while(total_food < 0){
             total_food += villager_food_cost;
             
-            killVillager(villagers[Math.floor((Math.random() * villagers.length - 1) + 1)]);
+            killVillager(villagers[Math.floor((Math.random() * villagers.length - 1) + 1)], true);
 
             if(villagers.length == 0){
                 updateText("not enough food to feed everyone");
-                endGame();
                 return;
             }
         }
@@ -434,6 +432,7 @@ function enemyCheck(){
                 buildingWallTickLimit = 1000;
             }
             attacksSurvived++;
+            total_attacks_survived++;
 
             updateText("walls held, enemy retreating");
 
@@ -449,23 +448,16 @@ function enemyCheck(){
 
 function endGame(){
 
-    //sendStatsToKong();
+    sendStatsToKong();
 
     audio_gameEnd.play();
 
     document.getElementById("speedControlDiv").style.display = "none";
     document.removeEventListener('keydown', keypressHandler);
 
-
-
     updateText("game over");
 
-    gameSpeed(99);
     clearInterval(resourceIntervalId);
-
-
-
-
 }
 
 function updateGameText(){ //and manage some resource math

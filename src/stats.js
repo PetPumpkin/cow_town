@@ -84,22 +84,48 @@ const saveData = () => {
     statsToSave._highestWoodCount = highest_wood_count;
 }
 
-saveData();
-
-const saveCookie = () => {
-    document.cookie = "saveData=" + JSON.stringify(statsToSave) + "; expires=Thu, 18 Dec 2050 12:00:00 UTC; path=/";
+const updateStatsText = () =>{
+    document.getElementById("totalGamesPlayed").innerText = statsToSave._totalGames;
+    document.getElementById("totalDaysSurvived").innerText = statsToSave._totalDays;
+    document.getElementById("totalAttacksSurvived").innerText = statsToSave._totalAttacksSurvived;
+    document.getElementById("totalCows").innerText = statsToSave._totalCows;
+    document.getElementById("highestCows").innerText = statsToSave._highestCowCount;
+    document.getElementById("totalFoodCollected").innerText = statsToSave._totalFoodCollected;
+    document.getElementById("highestFoodCount").innerText = statsToSave._highestFoodCount;
+    document.getElementById("totalWoodCollected").innerText = statsToSave._totalWoodCollected;
+    document.getElementById("highestWoodCount").innerText = statsToSave._highestWoodCount;
+    document.getElementById("totalHomesBuilt").innerText = statsToSave._totalHomesBuilt;
+    document.getElementById("totalWallsBuilt").innerText = statsToSave._totalWallsBuilt;
 }
 
-saveCookie();
 
 const loadCookie = () => {
     let cookieString = document.cookie;
 
-    cookieString = cookieString.substr(9); //cut off the "saveData=" part of the cookie and parse the rest
+    if(cookieString === ""){
+        console.log("emptyCookie");
+        return;
+    }
+    console.log(cookieString);
+    var n = cookieString.lastIndexOf("=");
+
+    cookieString = cookieString.substr(n + 1); //cut off the "saveData=" part of the cookie and parse the rest
     statsToSave = JSON.parse(cookieString);
+
+    updateStatsText();
 }
 
+
+const saveCookie = () => {
+    console.log("saving");
+    saveData();
+
+    document.cookie = "saveData=" + JSON.stringify(statsToSave) + "; expires=Thu, 18 Dec 2050 12:00:00 UTC; path=/";
+}
 loadCookie();
+
+setInterval(saveCookie, 1000);
+
 
 const sendStatsToKong = () =>{
     kongregate.stats.submit("total_cows", total_cows);
@@ -108,25 +134,3 @@ const sendStatsToKong = () =>{
     kongregate.stats.submit("survived", total_days);
 }
 
-const updateStatsText = () =>{
-    document.getElementById("totalGamesPlayed").innerText = total_games_played;
-    document.getElementById("totalDaysSurvived").innerText = total_days;
-    document.getElementById("totalAttacksSurvived").innerText = total_attacks_survived;
-    document.getElementById("totalCows").innerText = total_cows;
-    document.getElementById("highestCows").innerText = highest_cow_count;
-    document.getElementById("totalFoodCollected").innerText = total_food_collected;
-    document.getElementById("highestFoodCount").innerText = highest_food_count;
-    document.getElementById("totalWoodCollected").innerText = total_wood_collected;
-    document.getElementById("highestWoodCount").innerText = highest_wood_count;
-    document.getElementById("totalHomesBuilt").innerText = total_homes_built;
-    document.getElementById("totalWallsBuilt").innerText = total_walls_built;
-
-
-
-
-
-
-
-
-
-}
