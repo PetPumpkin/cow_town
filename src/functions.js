@@ -43,12 +43,12 @@ const add = (who, toWhere) => {
     if(gamePaused){
         return;
     }
-
-    if(who.isDead){
-        return;
-    }
     
     if(who === undefined){
+        return;
+    }
+
+    if(who.isDead){
         return;
     }
 

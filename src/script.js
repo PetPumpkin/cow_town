@@ -121,23 +121,7 @@ function gameRestart(){
     gameStart();
 }
 
-function keypressHandler(e){
 
-    var key = e.code || e.key || e.which;
-
-    if (key === '49' || key === 'Digit1' || key === "1") {
-        gameSpeed(0);
-    }else if(key === '50' || key === 'Digit2' || key === "2"){
-        gameSpeed(1);
-
-    }else if(key === '51' || key === 'Digit3' || key === "3"){
-        gameSpeed(2);
-
-    }else if(key === '32' || key === 'Space'){
-        gameSpeed(99);
-
-    }
-}
 
 let gamePaused = false;
 

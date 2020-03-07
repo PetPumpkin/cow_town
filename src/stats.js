@@ -84,6 +84,35 @@ const saveData = () => {
     statsToSave._highestWoodCount = highest_wood_count;
 }
 
+const loadData = () => {
+    upgradesComplete = statsToSave._upgradesComplete;
+    chanceForDoubleWood = statsToSave._chanceForDoubleWood;
+    chanceForDoubleFood = statsToSave._chanceForDoubleFood;
+    wallStrengthIncreaseAmount = statsToSave._wallStrengthIncreaseAmount,
+    villager_energy_gain = statsToSave._villagerEnergyGain,
+    villager_energy_decay = statsToSave._villagerEnergyDecay,
+    villager_fatigue_punishment = statsToSave._villagerFatiguePunishment,
+    villagers_per_home = statsToSave._homeCapacity,
+    scientistLimit = statsToSave._scientistLimit,
+    nextAttackCountdownBonus = statsToSave._nextAttackCooldownBonus,
+    total_wood_collected = statsToSave._totalWoodCollected;
+    total_wood_used = statsToSave._totalWoodUsed;
+    total_food_collected = statsToSave._totalFoodCollected;
+    total_food_eaten = statsToSave._totalFoodEaten;
+    total_cows = statsToSave._totalCows;
+    total_days = statsToSave._totalDays;
+    total_attacks_survived = statsToSave._totalAttacksSurvived;
+    total_homes_built = statsToSave._totalHomesBuilt;
+    total_walls_built = statsToSave._totalWallsBuilt;
+    total_walls_destroyed = statsToSave._totalWallsDestroyed;
+    total_mouse_clicks = statsToSave._totalMouseClicks;
+    total_games_played = statsToSave._totalGames;
+    total_upgrades = statsToSave._totalUpgrades;
+    highest_cow_count = statsToSave._highestCowCount;
+    highest_food_count = statsToSave._highestFoodCount;
+    highest_wood_count = statsToSave._highestWoodCount;
+}
+
 const updateStatsText = () =>{
     document.getElementById("totalGamesPlayed").innerText = statsToSave._totalGames;
     document.getElementById("totalDaysSurvived").innerText = statsToSave._totalDays;
@@ -103,28 +132,28 @@ const loadCookie = () => {
     let cookieString = document.cookie;
 
     if(cookieString === ""){
-        console.log("emptyCookie");
         return;
     }
-    console.log(cookieString);
     var n = cookieString.lastIndexOf("=");
 
     cookieString = cookieString.substr(n + 1); //cut off the "saveData=" part of the cookie and parse the rest
     statsToSave = JSON.parse(cookieString);
+
+    loadData();
 
     updateStatsText();
 }
 
 
 const saveCookie = () => {
-    console.log("saving");
+
     saveData();
 
     document.cookie = "saveData=" + JSON.stringify(statsToSave) + "; expires=Thu, 18 Dec 2050 12:00:00 UTC; path=/";
 }
 loadCookie();
 
-setInterval(saveCookie, 1000);
+setInterval(saveCookie, 5000);
 
 
 const sendStatsToKong = () =>{
