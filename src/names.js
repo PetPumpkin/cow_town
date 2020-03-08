@@ -40,5 +40,7 @@ const nameList = [
     "Hokage",
     "Kakashi",
     "Rock Lee",
-    "Guy"
+    "Guy",
+    "Hinata",
+    "Bee"
 ]

@@ -125,6 +125,16 @@ const updateStatsText = () =>{
     document.getElementById("highestWoodCount").innerText = statsToSave._highestWoodCount;
     document.getElementById("totalHomesBuilt").innerText = statsToSave._totalHomesBuilt;
     document.getElementById("totalWallsBuilt").innerText = statsToSave._totalWallsBuilt;
+
+    document.getElementById("doubleFoodChance").innerText = chanceForDoubleFood + "/30";
+    document.getElementById("doubleWoodChance").innerText = chanceForDoubleWood + "/30";
+    document.getElementById("wallStrengthIncreaseAmount").innerText = (wallStrengthIncreaseAmount - 5) + "/25";
+    document.getElementById("villagerEnergyGain").innerText = ((0.7 - villager_energy_gain) * 0.1) + "/13";
+    document.getElementById("villagerEnergyDrain").innerText = ((0.25 - villager_energy_decay) * 0.01) + "/15";
+    document.getElementById("villagerFatiguePunishment").innerText = ((3 - villager_fatigue_punishment) / 0.25) + "/6";
+    document.getElementById("homeCapacity").innerText = villagers_per_home - 2 + "/8";
+    document.getElementById("scientistLimit").innerText = scientistLimit - 1 + "/9";
+    document.getElementById("nextAttackBonus").innerText = (nextAttackCountdownBonus - 10) + "/10";
 }
 
 
@@ -161,5 +171,9 @@ const sendStatsToKong = () =>{
     kongregate.stats.submit("total_food_collected", total_food_collected);
     kongregate.stats.submit("total_wood_collected", total_wood_collected);
     kongregate.stats.submit("survived", total_days);
+}
+
+const clearCookie = () =>{
+    document.cookie = "saveData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
 

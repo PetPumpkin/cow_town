@@ -52,7 +52,7 @@ document.getElementById("add_scientist").addEventListener("click", function(e){
     addToJob(e, "scientist");
 });
 document.getElementById("remove_scientist").addEventListener("click", function(e){
-    removeFromJob("scientist");
+    removeFromJob(e, "scientist");
 }); 
 
 document.getElementById("build_homes").addEventListener("click", function(){
@@ -69,17 +69,16 @@ function keypressHandler(e){
 
     //console.log(e.code + " " + e.key + " " + e.which);
 
+    e.preventDefault();
+
     if (key === '49' || key === 'Digit1' || key === "1") {
         gameSpeed(0);
     }else if(key === '50' || key === 'Digit2' || key === "2"){
         gameSpeed(1);
-
     }else if(key === '51' || key === 'Digit3' || key === "3"){
         gameSpeed(2);
-
     }else if(key === '32' || key === 'Space'){
         gameSpeed(99);
-
     }else if(key === "KeyQ" || key === "q" || key === "81"){
         addToJob(e, "food");
     }else if(key === "KeyW" || key === " w" || key === "87"){

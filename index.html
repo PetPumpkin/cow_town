@@ -24,6 +24,8 @@
         <script src="src/upgrades.js" defer></script>
         <script src="src/script.js" defer></script>
         <script src="src/stats.js" defer></script>
+        <script src="src/howToPlay.js" defer></script>
+
 
         <script src="src/eventListeners.js" defer></script>
     </head>
@@ -44,17 +46,17 @@
                     
                     <div id="speedControlDiv">
                         <p>game speed</p>
-                        <a class="info"><button id="speedButton_pause" class="speedController" onclick="gameSpeed(99)">||</button><span>keyboard SPACEBAR</span></a>
-                        <a class="info"><button id="speedButton_0" class="speedController" onclick="gameSpeed(0)">></button><span>keyboard 1</span></a>
-                        <a class="info"><button id="speedButton_1" class="speedController" onclick="gameSpeed(1)">>></button><span>keyboard 2</span></a>
-                        <a class="info"><button id="speedButton_2" class="speedController" onclick="gameSpeed(2)">>>></button><span>keyboard 3</span></a>
+                        <a class="info"><button id="speedButton_pause" class="speedController" onclick="gameSpeed(99)">||</button><span>SPACEBAR</span></a>
+                        <a class="info"><button id="speedButton_0" class="speedController" onclick="gameSpeed(0)">></button><span>1</span></a>
+                        <a class="info"><button id="speedButton_1" class="speedController" onclick="gameSpeed(1)">>></button><span>2</span></a>
+                        <a class="info"><button id="speedButton_2" class="speedController" onclick="gameSpeed(2)">>>></button><span>3</span></a>
                     </div>
                     <div id="menuButtons">
                         <p>menu</p>
-                        <button id="startGameButton" onclick="gameStart()">start game</button>
-                        <button id="menu_restartGame" class="" onclick="gameRestart()">restart game</button>
+                        <button id="startGameButton" onclick="gameStart()">start</button>
+                        <button id="menu_restartGame" class="" onclick="gameRestart()">restart</button>
                         <button id="menu_soundToggle" class="menuControls" onclick="audioToggle()">sound <span id="soundOnText">on</span></button>
-                        <button id="menu_help" class="menuControls" onclick="helpToggle()">help</button>
+                        <button id="menu_help" class="menuControls" onclick="helpToggle()">how to play</button>
                         <button id="menu_stats" class="menuControls" onclick="statsToggle()">stats</button>
                         
                     </div>
@@ -96,13 +98,15 @@
                             </div>
                             
                             <hr>
-                            <div id="homeJobDiv"></div>
+                            <div id="homeJobDiv">
+                                <div id="homeJobHook"></div>
+                            </div>
 
                         </div>
                         <div id="foodComponent" class="component">
                             <h4>food</h4>
                             <hr>
-                            <div class="infoBox">
+                            <div id="foodStockBox" class="infoBox">
                             <p>stock:</p>
                             <p id="resText_food" class="resText_value">0</p>
                             </div>
@@ -110,20 +114,20 @@
                             <p>upkeep:</p>
                             <p id="resText_foodUpkeep" class="resText_value">0</p>
                             </div>
-                            <button id="add_foodForagers">+</button>
-                            <button id="remove_foodForagers">-</button>
+                            <a class="info"><button id="add_foodForagers">+</button><span>Q</span></a>
+                            <a class="info"><button id="remove_foodForagers">-</button><span>A</span></a>
                             <hr>
-                            <div id="foodJobDiv"></div>
+                            <div id="foodJobDiv"><div id="foodJobHook"></div></div>
                         </div>
                         <div id="woodComponent" class="component">
                             <h4>wood</h4>
                             <hr>
-                            <div class="infoBox">
+                            <div id="woodStockBox" class="infoBox">
                             <p>stock:</p>
                             <p id="resText_wood">0</p>
                             </div>
-                            <button id="add_woodCollectors">+</button>
-                            <button id="remove_woodCollectors">-</button>
+                            <a class="info"><button id="add_woodCollectors">+</button><span>W</span></a>
+                            <a class="info"><button id="remove_woodCollectors">-</button><span>S</span></a>
 
                             <hr>
                             <div id="woodJobDiv"></div>
@@ -135,8 +139,8 @@
                             <p>builders:</p>
                             <p id="resText_builders">0</p>
                             </div>
-                            <button id="add_builders">+</button>
-                            <button id="remove_builders">-</button>
+                            <a class="info"><button id="add_builders">+</button><span>E</span></a>
+                            <a class="info"><button id="remove_builders">-</button><span>D</span></a>
 
                             <hr>
                             <div id="buildingOptions">
@@ -148,7 +152,9 @@
                             <div id="buildingBar"><div id="buildingBarFiller"></div></div>
                             
                             <hr>
-                            <div id="buildJobDiv"></div>
+                            <div id="buildJobDiv">
+                                <div id="buildJobHook"></div>
+                            </div>
                         </div>
                         <div id="scientistComponent" class="component">
                             <h4>upgrade</h4>
@@ -157,8 +163,8 @@
                             <p>scientists:</p>
                             <p id="resText_scientists">0</p>
                             </div>
-                            <button id="add_scientist">+</button>
-                            <button id="remove_scientist">-</button>
+                            <a class="info"><button id="add_scientist">+</button><span>R</span></a>
+                            <a class="info"><button id="remove_scientist">-</button><span>F</span></a>
 
                             <hr>
                             <div id="upgradeOptions">
@@ -167,7 +173,9 @@
                             <p id="currentlyUpgrading"></p>
                             <div id="upgradeBar"><div id="upgradeBarFiller"></div></div>
                             <hr>
-                            <div id="scientistJobDiv"></div>
+                            <div id="scientistJobDiv">
+                                <div id="scientistJobHook"></div>
+                            </div>
                         </div>
                     </div>
             </div>
@@ -185,35 +193,36 @@
             </div>
 
             <div id="statsBox">
-                <h1>stats</h1>
-                <div>
-                    <p>games played: </p><span id="totalGamesPlayed"></span>
-                    <hr>
-                    <p>total days survived: </p><span id="totalDaysSurvived"></span>
-                    <hr>
-                    
-                    <p>total attacks survived: </p><span id="totalAttacksSurvived"></span>
-                    <hr>
-                    <p>total cows: </p><span id="totalCows"></span>
-                    <hr>
-                    <p>most cows at one time: </p><span id="highestCows"></span>
-                    <hr>
-                    <p>total food collected: </p><span id="totalFoodCollected"></span>
-                    <hr>
-                    <p>most food at one time: </p><span id="highestFoodCount"></span>
-                    <hr>
-                    <p>total wood collected: </p><span id="totalWoodCollected"></span>
-                    <hr>
-                    <p>most wood at one time: </p><span id="highestWoodCount"></span>
-                    <hr>
-                    <p>total homes built: </p><span id="totalHomesBuilt"></span>
-                    <hr>
-                    <p>total walls built: </p><span id="totalWallsBuilt"></span>
-                    
-                    <button class="menuControls" onclick="statsToggle()">close</button>
-
-
+                <div id="statsDisplay">
+                    <div>
+                        <h1>stats</h1>
+                        <div id="stat"><p>games played</p><span id="totalGamesPlayed"></span></div>
+                        <div id="stat"><p>total days survived</p><span id="totalDaysSurvived"></span></div>
+                        <div id="stat"><p>total attacks survived</p><span id="totalAttacksSurvived"></span></div>
+                        <div id="stat"><p>total cows</p><span id="totalCows"></span></div>
+                        <div id="stat"><p>most cows at one time</p><span id="highestCows"></span></div>
+                        <div id="stat"><p>total food collected</p><span id="totalFoodCollected"></span></div>
+                        <div id="stat"><p>most food at one time</p><span id="highestFoodCount"></span></div>
+                        <div id="stat"><p>total wood collected</p><span id="totalWoodCollected"></span></div>
+                        <div id="stat"><p>most wood at one time</p><span id="highestWoodCount"></span></div>
+                        <div id="stat"><p>total homes built</p><span id="totalHomesBuilt"></span></div>
+                        <div id="stat"><p>total walls built</p><span id="totalWallsBuilt"></span></div>
+                    </div>
+                    <div>
+                        <h1>upgrades</h1>
+                        <div id="stat"><p>double food chance</p><span id="doubleFoodChance"></span></div>
+                        <div id="stat"><p>double wood chance</p><span id="doubleWoodChance"></span></div>
+                        <div id="stat"><p>wall build bonus</p><span id="wallStrengthIncreaseAmount"></span></div>
+                        <div id="stat"><p>cow regeneration amount</p><span id="villagerEnergyGain"></span></div>
+                        <div id="stat"><p>cow energy drain amount</p><span id="villagerEnergyDrain"></span></div>
+                        <div id="stat"><p>fatigued cow regeneration</p><span id="villagerFatiguePunishment"></span></div>
+                        <div id="stat"><p>home capacity</p><span id="homeCapacity"></span></div>
+                        <div id="stat"><p>scientist limit</p><span id="scientistLimit"></span></div>
+                        <div id="stat"><p>enemy slowed by</p><span id="nextAttackBonus"></span></div>
+                    </div>
                 </div>
+                <button class="menuControls" onclick="statsToggle()">close</button>
+
             </div>
     </body>
 </html>

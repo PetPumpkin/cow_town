@@ -56,5 +56,7 @@ var audio_dayFinished = new Howl({
     src: ['src/audio/dayFinished.mp3']
 });
 
-
+var audio_upgradeComplete = new Howl({
+    src: ['src/audio/upgradeComplete.mp3']
+});
 

@@ -121,8 +121,6 @@ function gameRestart(){
     gameStart();
 }
 
-
-
 let gamePaused = false;
 
 function gameSpeed(speed){
@@ -247,8 +245,29 @@ function calculateResources(){
     //science bar
     document.getElementById("upgradeBarFiller").style.width = ((scienceTick / scienceTickLimit) * 100) + "%";
 
+    //check upkeep and wood stocks and signify if too low
+    checkFoodAndWoodStock();
+
     drainVillagersEnergy();
     updateGameText();
+}
+
+const checkFoodAndWoodStock = () =>{
+    
+    if(total_wood === 0){
+        if(total_builders > 0){
+            document.getElementById("woodStockBox").style.background = "#FF847C";
+        }else{
+            document.getElementById("woodStockBox").style.background = "#e9ffe9";
+        }
+    }
+
+    if(total_food < food_upkeep){
+        document.getElementById("foodStockBox").style.background = "#FF847C";
+    }else{
+        document.getElementById("foodStockBox").style.background = "#e9ffe9";
+    }
+
 }
 
 function building(){
@@ -300,13 +319,13 @@ function buildingHomes(){
         for (let i = 0; i < total_builders; i++) {
             buildingHomeTick++;
 
-            if(buildingHomeTick % buildingHomeTickPerWood == 0){
+            if(buildingHomeTick % buildingHomeTickPerWood === 0){
                 total_wood -= buildingHomeTickWoodCost;
                 audio_buildTick.play();
             }
         }
 
-        if(buildingHomeTick > buildingHomeTickLimit){
+        if(buildingHomeTick >= buildingHomeTickLimit){
             buildingHomeTick = 0;
             audio_buildingFinished.play();
             updateText("new home built");
@@ -326,13 +345,14 @@ function buildingWalls(){
 
             buildingWallTick++;
 
-            if(buildingWallTick % buildingWallTickPerWood == 0){
+            if(buildingWallTick % buildingWallTickPerWood === 0){
                 total_wood -= buildingWallTickWoodCost;
+                
                 audio_buildTick.play();
             }         
         }
 
-        if(buildingWallTick > buildingWallTickLimit){
+        if(buildingWallTick >= buildingWallTickLimit){
             buildingWallTick = 0;
             audio_buildingFinished.play();
             updateText("walls reinforced");
@@ -343,11 +363,6 @@ function buildingWalls(){
         }
     }
 }
-
-
-
-
-
 
 function dayCycle(){ // ~30 seconds for a day
     
@@ -411,7 +426,7 @@ function enemyCheck(){
             return;
         }else{
             wallStrength -= enemyStrength;
-            buildingWallTickLimit -= (enemyStrength * 10);
+            Math.floor(buildingWallTickLimit -= (enemyStrength * 10));
             if(buildingWallTickLimit < 1000){
                 buildingWallTickLimit = 1000;
             }
@@ -519,90 +534,4 @@ function statsToggle(){
     }
 
     document.getElementById("statsBox").style.display = statsOn? "block" : "none";
-}
-
-const explainationText = document.getElementById("helpExplaination");
-var explainationStep = 0;
-function nextExplain(){
-
-    switch(explainationStep){
-        case 0:
-            explainationText.innerText = "the aim of the game is to survive and expand your town";
-        break;
-        case 1:
-            explainationText.innerText = "to survive: keep your cows fed by having them forage. Click on the + under the food panel to send any available cows to forage for food";
-        break;
-        case 2:
-            explainationText.innerText = "food upkeep: take note of your required upkeep, each cow needs 5 food per day to survive";
-        break;
-        case 3:
-            explainationText.innerText = "if you do not have enough food in stock at the end of the day, cows will die";
-        break;
-        case 4:
-            explainationText.innerText = "under the name of each cow is a green energy bar, if this runs out, your cow will die. Click on the - next to the cow to send them home to rest";
-        break;
-        case 5:
-            explainationText.innerText = "collect wood to build homes and walls";
-        break;
-        case 6:
-            explainationText.innerText = "homes allow more cows to join the town. Each home can hold two cows. At the end of each day, providing there are enough homes, a new cow will join your town";
-        break;
-        case 7:
-            explainationText.innerText = "walls defend against the ongoing attacks from the outside world";
-        break;
-        case 8:
-            explainationText.innerText = "each wall built will increase your 'wall strength' by 5%. Your wall strength must be higher than the enemy strength before the enemy attacks, otherwise it's game over";
-        break;
-        case 9:
-            explainationText.innerText = "now go play!";
-        break;
-        case 10:
-            explainationText.innerText = "no really, I got nothing more for you";
-        break;
-        case 11:
-            explainationText.innerText = "";
-        break;
-        case 12:
-            explainationText.innerText = "";
-        break;
-        case 13:
-            explainationText.innerText = "...";
-        break;
-        case 14:
-            explainationText.innerText = "persistent one aren't you...";
-            break;
-        case 15:
-            explainationText.innerText = "alright then..";
-        break;
-        case 16:
-            explainationText.innerText = "you can use the keyboard keys 1, 2, 3 to change the game speed and spacebar to pause the game";
-        break;
-        case 17:
-            explainationText.innerText = "more cows = more productivity";
-        break;
-        case 18:
-            explainationText.innerText = "I really like cows :)";
-        break;
-        case 19:
-            explainationText.innerText = "did you know that cows chew for up to 8 hours a day?";
-        break;
-        case 20:
-            explainationText.innerText = "something fascinating, cows are very social creatures and don't like to be alone";
-            break;
-        case 21:
-            explainationText.innerText = "cows can sleep while standing, isn't that cool!?";
-        break;
-        case 22:
-            explainationText.innerText = "alright.. I'm getting tired of writing now..";
-        break;
-        case 23:
-            explainationText.innerText = "okay go play the game, give it a go";
-        break;
-        case 24:
-            explainationText.innerText = "you got this, I believe in you!";
-        break;
-    }
-
-    explainationStep++;
-
 }

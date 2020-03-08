@@ -131,7 +131,7 @@ button:hover{
     justify-content: space-evenly;
 }
 
-#foodJobDiv, #woodJobDiv, #buildJobDiv, #homeJobDiv, #scienceJobDiv{
+#foodJobDiv, #woodJobDiv, #buildJobDiv, #homeJobDiv, #scienceJobDiv, #statsBox {
     overflow-x: hidden;
     overflow-y: scroll;
 
@@ -351,7 +351,7 @@ audio{
 
 a.info{
     position:relative; /*this is the key*/
-    z-index:24; background-color:#ccc;
+    z-index:0; background-color:#ccc;
     color:#000;
     text-decoration:none}
 
@@ -382,12 +382,30 @@ a.info:hover span{ /*the span will display just on :hover state*/
     padding: 10px;
 }
 
-#statsBox button{
-    display: block;
+#statsBox{
+    height: 500px;
 }
 
-#statsBox p{
-    display: inline;
+#statsDisplay{
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#statsBox h1, #statsBox button{
+    margin: 5px;
+    padding: 5px;
+}
+
+#statsBox span{
+    display: inline-block;
+    font-weight: bolder;
+}
+
+#stat{
+    padding: 5px;
+    margin: 2px;
+    border: 1px solid var(--color-borders);
 }
 
 

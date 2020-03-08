@@ -21,6 +21,9 @@ let completedUpgrades = [];
 const totalUpgrades = 9;
 
 const doUpgrade = () =>{
+
+    audio_upgradeComplete.play();
+    
     let randomNum = Math.floor(Math.random() * potentialUpgrades.length - 1) + 1;
 
     if(randomNum === potentialUpgrades.indexOf(increaseHomeCapacity) || randomNum === potentialUpgrades.indexOf(increaseScientistLimit)){
@@ -28,6 +31,7 @@ const doUpgrade = () =>{
     }
 
     potentialUpgrades[randomNum]();
+    
     checkIfAllUpgradesComplete();
 }
 
@@ -37,12 +41,12 @@ checkIfAllUpgradesComplete = () =>{
     }
 }
 
-const chanceForDoubleWoodIncrease = 1;
+const chanceForDoubleWoodIncrease = 2.5;
 
-const chanceForDoubleFoodIncrease = 1; 
+const chanceForDoubleFoodIncrease = 2.5; 
 
-const villagerEnergyDrainDecrease = 0.0025; //starts at 0.3 - minimum 0.1 (80 upgrades)
-const villagerEnergyGainIncrease = 0.01; //starts at 0.7 - max 2 (130 upgrades)
+const villagerEnergyDrainDecrease = 0.01; //starts at 0.3 
+const villagerEnergyGainIncrease = 0.05; //starts at 0.7
 
 
 //need to figure out how many of each upgrade is possible - these should be fairly equal
@@ -89,43 +93,37 @@ const potentialUpgrades = [
 
     },
     increaseCowEnergyRegain = () => {
-        villager_energy_gain += villagerEnergyGainIncrease;
+        villager_energy_gain += villagerEnergyGainIncrease; //0.1; starts at 0.7
 
         if(villager_energy_gain >= 2){
             displayPrompt("better rest - MAXED", "wow! you have maxed out how fast your cows can regain their energy");
             //prevent this option
             completedUpgrades.push(3);
             potentialUpgrades.splice(potentialUpgrades.indexOf(increaseCowEnergyRegain), 1);
-
-            
         }else{
             displayPrompt("better rest", "your cows now regain their energy faster when at home");
         }
     },
     reduceCowEnergyDrain = () => {
-        villager_energy_decay -= villagerEnergyDrainDecrease;
+        villager_energy_decay -= villagerEnergyDrainDecrease; //0.01 starts at 0.25
 
-        if(villager_energy_decay <= 0.1){
+        if(villager_energy_decay <= 0.15){
             displayPrompt("increased stamina - MAXED", "impressive! you have maxed out your cows stamina endurance");
             //prevent this option
             completedUpgrades.push(4);
             potentialUpgrades.splice(potentialUpgrades.indexOf(reduceCowEnergyDrain), 1);
-
-            
         }else{
             displayPrompt("increased stamina", "your cows energy now reduces slower while working");
         }
     },
     reduceCowFatiguePunishment = () => {
-        villager_fatigue_punishment -= 0.025;
+        villager_fatigue_punishment -= 0.25;
 
         if(villager_fatigue_punishment <= 1.5){
             displayPrompt("less fatigue - MAXED", "check it out! you have maxed out your cows ability to quickly recover from fatigue");
             //prevent this option
             completedUpgrades.push(5);
             potentialUpgrades.splice(potentialUpgrades.indexOf(reduceCowFatiguePunishment), 1);
-
-        
         }else{
             displayPrompt("less fatigue", "fatigued cows now return to full strength faster");
         }
@@ -138,8 +136,6 @@ const potentialUpgrades = [
             //prevent this option
             completedUpgrades.push(6);
             potentialUpgrades.splice(potentialUpgrades.indexOf(increaseHomeCapacity), 1);
-
-        
         }else{
             displayPrompt("bigger homes", "each home can now house " + villagers_per_home + " cows");
         }

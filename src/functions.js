@@ -4,8 +4,24 @@ const setMultipleDivDisplay = (divNames, setTo) => {
     });
 }
 
+const sortCowsAtJob = (job) =>{
+    
+    let cowsAtJob = findVillagersWithJob(job);
+
+    cowsAtJob.sort((a, b) => parseFloat(b.energy) - parseFloat(a.energy));
+
+    let cowDivs = [];
+
+    cowsAtJob.forEach(cow => {
+        cowDivs.push(document.getElementById("villager_" + cow.id));
+    });
+
+    for (let i = 0; i < cowDivs.length; i++) {
+        document.getElementById(job + "JobHook").after(cowDivs[i]);
+    }
+}
+
 const removeFromHome = (villager) =>{
-    audio_buttonPressUp.play();
     document.getElementById("villager_" + villager.id).remove();
 }
 
@@ -59,18 +75,18 @@ const add = (who, toWhere) => {
     who.currentJob = toWhere;
 
     if(toWhere !== "home"){
+        audio_buttonPressUp.play();
         removeFromHome(who);
     }
 
     let newWorkingCow = document.createElement("div");
     newWorkingCow.className = "newWorker";
-    newWorkingCow.insertAdjacentHTML('afterbegin', 
-        `<p id='villagerName' class='villager${who.id}'>${who.name}</p>
-        <div class="villagerEnergyDisplay">
-            <div id="tempId" class="villagerEnergyDisplayFiller">
-            </div>
-        </div>`
-    );
+    newWorkingCow.insertAdjacentHTML("afterbegin", 
+    `<p id='villagerName' class='villager${who.id}'>${who.name}</p>
+    <div class="villagerEnergyDisplay">
+        <div id="tempId" class="villagerEnergyDisplayFiller">
+        </div>
+    </div>`);
     newWorkingCow.id = "villager_" + who.id;
 
     document.getElementById(toWhere + 'JobDiv').appendChild(newWorkingCow);
@@ -79,7 +95,10 @@ const add = (who, toWhere) => {
     fillerDiv.id = "energy_" + who.id;
 
     updateCurrentJobNumbers();
+
+    sortCowsAtJob(toWhere);
 }
+
 
 const removeMany = (whoArray) => {
     whoArray.forEach(who => {
@@ -103,6 +122,7 @@ const remove = (who) => {
 
     who.currentJob = "home";
 
+    audio_buttonPressDown.play();
     
     document.getElementById("villager_" + who.id).remove();
     add(who, "home");
