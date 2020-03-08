@@ -53,7 +53,7 @@ function nextExplain(){
             explainationText.innerText = "alright then..";
         break;
         case 16:
-            explainationText.innerText = "you can use the keyboard keys 1, 2, 3 to change the game speed and spacebar to pause the game";
+            explainationText.innerText = "when moving cows you can also hold the SHIFT button to move all or hold CTRL to move half of available cows";
         break;
         case 17:
             explainationText.innerText = "more cows = more productivity";
