@@ -1,8 +1,9 @@
 
 const addToJob = (e, job) => {
     if(e.shiftKey){
+        console.log("shift key is down");
         addManyWithDelay(findVillagersWithJob("home"), job);
-    }else if(e.ctrlKey){
+    }else if(e.altKey){
         addManyWithDelay(findHalfVillagersWithJob("home"), job);
     }else{
         add(findStrongestVillager(findVillagersWithJob("home")), job);
@@ -12,7 +13,7 @@ const addToJob = (e, job) => {
 const removeFromJob = (e, job) => {
     if(e.shiftKey){
         removeManyWithDelay(findVillagersWithJob(job));
-    }else if(e.ctrlKey){
+    }else if(e.altKey){
         removeManyWithDelay(findHalfVillagersWithJob(job));
     }else{
         remove(findWeakestVillager(findVillagersWithJob(job)));
@@ -95,5 +96,9 @@ function keypressHandler(e){
         removeFromJob(e, "build");
     }else if(key === "KeyF" || key === "f" || key === "70"){
         removeFromJob(e, "scientist");
+    }else if(key === "KeyZ" || key === "z" || key === "90"){
+        buildHomes();
+    }else if(key === "KeyX" || key === "x" || key === "88"){
+        buildWalls();
     }
 }

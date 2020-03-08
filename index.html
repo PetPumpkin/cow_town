@@ -130,7 +130,9 @@
                             <a class="info"><button id="remove_woodCollectors">-</button><span>S</span></a>
 
                             <hr>
-                            <div id="woodJobDiv"></div>
+                            <div id="woodJobDiv">
+                                <div id="woodJobHook"></div>
+                            </div>
                         </div>
                         <div id="builderComponent" class="component">
                             <h4>build</h4>
@@ -145,8 +147,8 @@
                             <hr>
                             <div id="buildingOptions">
                                 <p>build:</p>
-                                <button id="build_homes">homes<hr><p id="homesWoodCost" class="buildingCost"> wood</p></button>
-                                <button id="build_walls">walls<hr><p id="wallsWoodCost" class="buildingCost"> wood</p></button>
+                                <a class="info buildCostHover"><button id="build_homes">homes<hr><p id="homesWoodCost" class="buildingCost"> wood</p></button><span>Z</span></a>
+                                <a class="info buildCostHover"><button id="build_walls">walls<hr><p id="wallsWoodCost" class="buildingCost"> wood</p></button><span>X</span></a>
                             </div>
                             <p id="currentlyBuilding">homes</p>
                             <div id="buildingBar"><div id="buildingBarFiller"></div></div>

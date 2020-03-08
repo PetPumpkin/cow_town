@@ -88,15 +88,15 @@ function gameStart(){
 
     resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
 
-    addVillager(2, false);
+    addVillager(20, false);
     buildHomes();
     gameSpeed(0);
 
     document.addEventListener('keydown', keypressHandler);
 
     total_homes = 1;
-    total_food = 0;
-    total_wood = 0;
+    total_food = 10000;
+    total_wood = 10000;
     enemyStrength = 2.5;
     wallStrength = 0;
     buildingWallTickLimit = 1000;
@@ -260,6 +260,8 @@ const checkFoodAndWoodStock = () =>{
         }else{
             document.getElementById("woodStockBox").style.background = "#e9ffe9";
         }
+    }else{
+        document.getElementById("woodStockBox").style.background = "#e9ffe9";
     }
 
     if(total_food < food_upkeep){
@@ -499,8 +501,8 @@ function updateGameText(){ //and manage some resource math
     }
 
     //BUILD PRICES
-    document.getElementById("homesWoodCost").innerHTML = (buildingHomeTickLimit / buildingHomeTickPerWood) + " wood";
-    document.getElementById("wallsWoodCost").innerHTML = (buildingWallTickLimit / buildingWallTickPerWood) + " wood";
+    document.getElementById("homesWoodCost").innerHTML =  Math.floor(buildingHomeTickLimit / buildingHomeTickPerWood) + " wood";
+    document.getElementById("wallsWoodCost").innerHTML =  Math.floor(buildingWallTickLimit / buildingWallTickPerWood) + " wood";
 }
 
 

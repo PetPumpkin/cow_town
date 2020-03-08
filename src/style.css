@@ -369,6 +369,10 @@ a.info:hover span{ /*the span will display just on :hover state*/
     text-align: center;
 }
 
+a.buildCostHover:hover span{
+    top:3em; 
+}
+
 #helpDiv, #promptBox, #statsBox{
     display: none;
     background: var(--color-buttonTextHoverBG);

@@ -53,7 +53,7 @@ function nextExplain(){
             explainationText.innerText = "alright then..";
         break;
         case 16:
-            explainationText.innerText = "when moving cows you can also hold the SHIFT button to move all or hold CTRL to move half of available cows";
+            explainationText.innerText = "when moving cows you can also hold the SHIFT button to move all or hold ALT to move half of available cows";
         break;
         case 17:
             explainationText.innerText = "more cows = more productivity";
