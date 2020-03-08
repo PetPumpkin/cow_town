@@ -8,7 +8,13 @@ const sortCowsAtJob = (job) =>{
     
     let cowsAtJob = findVillagersWithJob(job);
 
-    cowsAtJob.sort((a, b) => parseFloat(b.energy) - parseFloat(a.energy));
+    if(job === "home"){
+        cowsAtJob.sort((a, b) => parseFloat(a.energy) - parseFloat(b.energy));
+
+    }else{
+        cowsAtJob.sort((a, b) => parseFloat(b.energy) - parseFloat(a.energy));
+    }
+
 
     let cowDivs = [];
 

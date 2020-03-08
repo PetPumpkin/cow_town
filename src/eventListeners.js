@@ -1,7 +1,6 @@
 
 const addToJob = (e, job) => {
     if(e.shiftKey){
-        console.log("shift key is down");
         addManyWithDelay(findVillagersWithJob("home"), job);
     }else if(e.altKey){
         addManyWithDelay(findHalfVillagersWithJob("home"), job);

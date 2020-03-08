@@ -88,15 +88,15 @@ function gameStart(){
 
     resourceIntervalId = setInterval(calculateResources, resourceCalculationTime);
 
-    addVillager(20, false);
+    addVillager(2, false);
     buildHomes();
     gameSpeed(0);
 
     document.addEventListener('keydown', keypressHandler);
 
     total_homes = 1;
-    total_food = 10000;
-    total_wood = 10000;
+    total_food = 0;
+    total_wood = 0;
     enemyStrength = 2.5;
     wallStrength = 0;
     buildingWallTickLimit = 1000;
@@ -187,9 +187,25 @@ function gameSpeed(speed){
 }
 
 const rollDie = (chanceOutOfHundred) => {
+    if(chanceOutOfHundred === 0){
+        return;
+    }
     let randNum = Math.floor(Math.random() * 100);
     return Math.floor(randNum <= chanceOutOfHundred);
 }   
+
+let signifyingDouble = false;
+
+const doubleSignifier = (type) => {
+
+    signifyingDouble = true;
+    document.getElementById(type + "StockBox").style.background = "#99B898";
+
+    setTimeout(function(){
+        document.getElementById(type + "StockBox").style.background = "#e9ffe9";
+        signifyingDouble = false;
+    }, 1000);
+}
 
 function calculateResources(){
 
@@ -199,13 +215,15 @@ function calculateResources(){
         foodTick++;
     }
 
-    if(foodTick >= (foodTickLimit - (total_foragers / 4))){
+    if(foodTick >= (foodTickLimit)){
         foodTick = 0;
         total_food += villager_food_generation * total_foragers;
         total_food_collected += villager_food_generation * total_foragers;
 
         if(rollDie(chanceForDoubleFood)){
             total_food += villager_food_generation * total_foragers;
+            doubleSignifier("food");
+            updateText("double food (+" + ((villager_food_generation * total_foragers) * 2 + ")"));
         }
 
         if(total_food > highest_food_count){
@@ -220,13 +238,15 @@ function calculateResources(){
         woodTick++;
     }
 
-    if(woodTick >= (woodTickLimit - (total_collectors / 4))){
+    if(woodTick >= (woodTickLimit)){
         woodTick = 0;
         total_wood += villager_wood_generation * total_collectors;
         total_wood_collected += villager_wood_generation * total_collectors;
 
         if(rollDie(chanceForDoubleWood)){
             total_wood += villager_wood_generation * total_collectors;
+            doubleSignifier("wood");
+            updateText("double wood (+" + ((villager_wood_generation * total_collectors) * 2) + ")");
         }
 
         if(total_wood > highest_wood_count){
@@ -254,7 +274,12 @@ function calculateResources(){
 
 const checkFoodAndWoodStock = () =>{
     
+    if(signifyingDouble){
+        return;
+    }
+
     if(total_wood === 0){
+
         if(total_builders > 0){
             document.getElementById("woodStockBox").style.background = "#FF847C";
         }else{
@@ -334,7 +359,7 @@ function buildingHomes(){
             total_homes++;
             total_homes_built++;
 
-            buildingHomeTickLimit += 50;
+            buildingHomeTickLimit += 100;
         }
     }
 }
@@ -359,9 +384,9 @@ function buildingWalls(){
             audio_buildingFinished.play();
             updateText("walls reinforced");
             wallStrength += wallStrengthIncreaseAmount;
-            total_walls_built += wallStrengthIncreaseAmount;
+            //total_walls_built += wallStrengthIncreaseAmount;
 
-            buildingWallTickLimit += 50;
+            buildingWallTickLimit += 100;
         }
     }
 }

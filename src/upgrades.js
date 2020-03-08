@@ -54,7 +54,7 @@ const villagerEnergyGainIncrease = 0.05; //starts at 0.7
 const potentialUpgrades = [
     increaseChanceForDoubleWood = () => {
         chanceForDoubleWood += chanceForDoubleWoodIncrease;
-        if(chanceForDoubleWood >= 30){
+        if(chanceForDoubleWood >= 50){
             displayPrompt("double wood - MAXED", "awesome! you have maxed out your chance to find double wood");
             //prevent this option
             completedUpgrades.push(0);
@@ -66,7 +66,7 @@ const potentialUpgrades = [
     },
     increaseChanceForDoubleFood = () => {
         chanceForDoubleFood += chanceForDoubleFoodIncrease;
-        if(chanceForDoubleFood >= 30){
+        if(chanceForDoubleFood >= 50){
             displayPrompt("double food - MAXED", "nice! you have maxed out your chance to find double food");
             //prevent this option
             completedUpgrades.push(1);
@@ -93,7 +93,7 @@ const potentialUpgrades = [
 
     },
     increaseCowEnergyRegain = () => {
-        villager_energy_gain += villagerEnergyGainIncrease; //0.1; starts at 0.7
+        villager_energy_gain += 0.1; //0.1; starts at 0.7
 
         if(villager_energy_gain >= 2){
             displayPrompt("better rest - MAXED", "wow! you have maxed out how fast your cows can regain their energy");
@@ -105,7 +105,7 @@ const potentialUpgrades = [
         }
     },
     reduceCowEnergyDrain = () => {
-        villager_energy_decay -= villagerEnergyDrainDecrease; //0.01 starts at 0.25
+        villager_energy_decay -= 0.01; //0.01 starts at 0.25
 
         if(villager_energy_decay <= 0.15){
             displayPrompt("increased stamina - MAXED", "impressive! you have maxed out your cows stamina endurance");

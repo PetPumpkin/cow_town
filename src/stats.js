@@ -126,11 +126,11 @@ const updateStatsText = () =>{
     document.getElementById("totalHomesBuilt").innerText = statsToSave._totalHomesBuilt;
     document.getElementById("totalWallsBuilt").innerText = statsToSave._totalWallsBuilt;
 
-    document.getElementById("doubleFoodChance").innerText = chanceForDoubleFood + "/30";
-    document.getElementById("doubleWoodChance").innerText = chanceForDoubleWood + "/30";
+    document.getElementById("doubleFoodChance").innerText = chanceForDoubleFood + "/50";
+    document.getElementById("doubleWoodChance").innerText = chanceForDoubleWood + "/50";
     document.getElementById("wallStrengthIncreaseAmount").innerText = (wallStrengthIncreaseAmount - 5) + "/25";
-    document.getElementById("villagerEnergyGain").innerText = ((0.7 - villager_energy_gain) * 0.1) + "/13";
-    document.getElementById("villagerEnergyDrain").innerText = ((0.25 - villager_energy_decay) * 0.01) + "/15";
+    document.getElementById("villagerEnergyGain").innerText = -((0.7 - villager_energy_gain) /  0.1).toFixed(0) + "/13";
+    document.getElementById("villagerEnergyDrain").innerText = ((0.25 - villager_energy_decay) / 0.01).toFixed(0) + "/10";
     document.getElementById("villagerFatiguePunishment").innerText = ((3 - villager_fatigue_punishment) / 0.25) + "/6";
     document.getElementById("homeCapacity").innerText = villagers_per_home - 2 + "/8";
     document.getElementById("scientistLimit").innerText = scientistLimit - 1 + "/9";
