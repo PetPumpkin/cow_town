@@ -2,7 +2,7 @@
 
 Cow Town is my first vanilla JS project.
 
-![Cow Town Splash](src/bg.png)
+![Cow Town Splash](src/bg.jpg)
 
 Playable on [Kongregate.](https://www.kongregate.com/games/Pet_Pumpkin/cow-town)
 
