@@ -107,6 +107,7 @@ function gameStart(){
     nextAttackCountdown = 20;
     total_days = 0;
     timeOfDay = 0;
+    attacksSurvived = 0;
 }
 
 function gameRestart(){
