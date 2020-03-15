@@ -12,7 +12,7 @@ Cow Town is a simple management game in which must expand and defend your town o
 
 I have wanted to make a clone of the awesome game [Despotism 3k](https://store.steampowered.com/app/699920/Despotism_3k/) for quite some time and thought a text based version could work nicely.
 
-![Full Game View](src/ss)
+![Full Game View](src/ss.png)
 
 ### How to play?
 
@@ -26,7 +26,7 @@ At the end of each day each cow will consume 5 food. Any cows that cannot be fed
 
 The "enemy" attacks every X number of days and is defended against by building walls.
 
-![Enemy / Defence Module](src/ex_enemy.png)
+![Enemy and Defence Module](src/ex_enemy.png)
 
 Cows can be assigned various jobs:
 - Foraging for food
