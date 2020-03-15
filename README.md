@@ -57,7 +57,9 @@ Another note, maybe I can't fully say that I'm using pure vanilla JS since I use
 ### Thanks
 
 You can visit my website at https://petpumpkin.net
+
 or, follow me on [twitter](https://twitter.com/pet_pumpkin)
+
 or, here's a trailer of a game I made using Unity [Avocado Rescue](https://youtu.be/6UgBex-KuNE)
 
 Cheers, Pet Pumpkin
